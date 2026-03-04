@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>70 Ans de Katy - Le Millionnaire</title>
+    <style>
+        :root {
+            --fdj-blue: #003399;
+            --fdj-yellow: #ffcc00;
+            --fdj-red: #e60000;
+            --gold: #d4af37;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial Black', sans-serif;
+            background: radial-gradient(circle, #0044cc 0%, #001a4d 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        /* --- TICKET KATY --- */
+        .ticket {
+            position: relative;
+            width: 360px;
+            background: var(--fdj-yellow);
+            border: 6px solid #fff;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            text-align: center;
+            user-select: none;
+        }
+
+        .header-katy {
+            background: var(--fdj-blue);
+            padding: 15px;
+            border-radius: 15px;
+            transform: rotate(-2deg);
+            margin-bottom: 20px;
+            border: 2px solid gold;
+        }
+
+        .header-katy h1 {
+            margin: 0;
+            font-size: 1.6rem;
+            color: white;
+            text-shadow: 2px 2px #000;
+        }
+
+        .instruction {
+            color: var(--fdj-blue);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        /* --- ZONE À GRATTER --- */
+        .scratch-container {
+            position: relative;
+            width: 300px;
+            height: 220px;
+            margin: 0 auto;
+            background: #fff;
+            border: 4px solid var(--fdj-blue);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .hidden-reveal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .hidden-reveal p {
+            color: var(--fdj-blue);
+            font-size: 0.95rem;
+            margin: 5px 0;
+            line-height: 1.3;
+        }
+
+        .hidden-reveal .main-prize {
+            color: var(--fdj-red);
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+
+        #scratch-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            touch-action: none;
+            cursor: crosshair;
+        }
+
+        .footer-info {
+            margin-top: 15px;
+            color: var(--fdj-blue);
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Confettis */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            z-index: 999;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ticket">
+        <div class="header-katy">
+            <h1>KATY - 70 ANS GAGNANTS</h1>
+        </div>
+
+        <p class="instruction">Gratte avec ton doigt !</p>
+
+        <div class="scratch-container">
+            <div class="hidden-reveal">
+                <p class="main-prize">✨ WEEK-END À 2 ✨</p>
+                <p><i>Indice 1 :</i> Les dorures de Jean Lamour...</p>
+                <p><i>Indice 2 :</i> Le goût d'une petite bille d'or ambrée...</p>
+                <p><i>Indice 3 :</i> On y croise l'Ecole d'Art Nouveau.</p>
+                <p><strong>C'est pour toi, Katy !</strong></p>
+            </div>
+            
+            <canvas id="scratch-layer" width="300" height="220"></canvas>
+        </div>
+
+        <div class="footer-info">
+            SÉRIE SPÉCIALE ANNIVERSAIRE - 2026
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('scratch-layer');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        let drawing = false;
+
+        function setup() {
+            // Fond argenté
+            const g = ctx.createLinearGradient(0, 0, 300, 220);
+            g.addColorStop(0, '#ADB5BD');
+            g.addColorStop(0.5, '#E9ECEF');
+            g.addColorStop(1, '#6C757D');
+            ctx.fillStyle = g;
+            ctx.fillRect(0, 0, 300, 220);
+
+            // Déco "Millionnaire" (Etoiles)
+            ctx.fillStyle = '#FFCC00';
+            for(let i=0; i<12; i++) {
+                drawStar(Math.random()*300, Math.random()*220, 5, 12, 6);
+            }
+
+            // Texte dessus
+            ctx.fillStyle = '#003399';
+            ctx.font = 'bold 22px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('ZONE DE GAIN', 150, 115);
+        }
+
+        function drawStar(cx, cy, spikes, outer, inner) {
+            let rot = Math.PI/2*3, x=cx, y=cy, step=Math.PI/spikes;
+            ctx.beginPath();
+            ctx.moveTo(cx, cy-outer);
+            for(let i=0; i<spikes; i++){
+                x=cx+Math.cos(rot)*outer; y=cy+Math.sin(rot)*outer;
+                ctx.lineTo(x,y); rot+=step;
+                x=cx+Math.cos(rot)*inner; y=cy+Math.sin(rot)*inner;
+                ctx.lineTo(x,y); rot+=step;
+            }
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function scratch(e) {
+            if(!drawing) return;
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+            const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(x, y, 25, 0, Math.PI*2);
+            ctx.fill();
+            check();
+        }
+
+        function check() {
+            const data = ctx.getImageData(0,0,300,220).data;
+            let count = 0;
+            for(let i=3; i<data.length; i+=4) if(data[i]===0) count++;
+            if(count > (data.length/4)*0.6) {
+                canvas.style.transition = 'opacity 1s';
+                canvas.style.opacity = '0';
+                celebrate();
+            }
+        }
+
+        function celebrate() {
+            if(window.done) return; window.done=true;
+            for(let i=0; i<80; i++) {
+                const conf = document.createElement('div');
+                conf.className = 'confetti';
+                conf.style.left = Math.random()*100+'vw';
+                conf.style.backgroundColor = ['#FFCC00','#E60000','#003399','#FFFFFF'][Math.floor(Math.random()*4)];
+                conf.style.animationDuration = (Math.random()*3+2)+'s';
+                document.body.appendChild(conf);
+            }
+        }
+
+        canvas.addEventListener('mousedown', () => drawing=true);
+        window.addEventListener('mouseup', () => drawing=false);
+        canvas.addEventListener('mousemove', scratch);
+        canvas.addEventListener('touchstart', (e) => { drawing=true; scratch(e); });
+        canvas.addEventListener('touchend', () => drawing=false);
+        canvas.addEventListener('touchmove', scratch);
+
+        setup();
+    </script>
+</body>
+</html>
+
