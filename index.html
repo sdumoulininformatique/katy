@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Anniversaire de Katy - Le Poissonnier</title>
     <style>
         :root {
@@ -10,6 +10,11 @@
             --fdj-yellow: #ffcc00;
             --fdj-red: #e60000;
             --gold: #d4af37;
+            /* Variables de base pour le ratio responsive */
+            --base-width: 420;
+            --base-height: 600;
+            --ticket-width: 90vw;
+            --max-ticket-width: 420px;
         }
 
         body {
@@ -18,51 +23,61 @@
             background: radial-gradient(circle, #0044cc 0%, #001a4d 100%);
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
-            min-height: 100vh; color: #fff; overflow: hidden;
+            min-height: 100vh; color: #fff; 
+            overflow-x: hidden;
+            padding: 10px;
+            box-sizing: border-box;
         }
 
         .main-title {
-            font-size: 2.2rem;
+            font-size: clamp(1.2rem, 5vw, 2.2rem);
             color: var(--fdj-yellow);
-            text-shadow: 4px 4px 0px var(--fdj-blue), 0 0 15px rgba(0,0,0,0.5);
-            margin-bottom: 20px;
+            text-shadow: 2px 2px 0px var(--fdj-blue), 0 0 10px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
             text-transform: uppercase;
             text-align: center;
+            width: 100%;
+            max-width: 600px;
         }
 
         .ticket {
             position: relative; 
-            width: 420px; 
-            height: 600px; 
+            width: var(--ticket-width);
+            max-width: var(--max-ticket-width);
+            /* Maintient le ratio 420/600 */
+            aspect-ratio: 420 / 600; 
             background-image: url('image_78a3ec.png');
             background-size: 100% 100%;
             background-repeat: no-repeat;
-            border: 6px solid #fff; 
-            border-radius: 25px;
-            box-shadow: 0 25px 70px rgba(0,0,0,0.8);
+            border: clamp(3px, 1vw, 6px) solid #fff; 
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.8);
             user-select: none;
+            touch-action: none;
         }
 
-        /* --- ZONE À GRATTER : LARGE ET HAUTE --- */
+        /* --- ZONE À GRATTER RESPONSIVE --- */
         .scratch-container {
             position: absolute; 
-            width: 330px; 
-            height: 280px; 
+            width: 78.5%; /* (330/420) */
+            height: 46.6%; /* (280/600) */
             top: 67.5%; 
             left: 50%;
             transform: translate(-50%, -50%);
             background: transparent;
-            border-radius: 12px;
+            border-radius: 8px;
             overflow: hidden; 
             display: flex; 
             justify-content: center; 
             align-items: center;
-            border: 2px solid rgba(255,255,255,0.3);
+            border: 1px solid rgba(255,255,255,0.3);
         }
 
         #scratch-layer {
             position: absolute; 
             top: 0; left: 0; 
+            width: 100%;
+            height: 100%;
             z-index: 10;
             touch-action: none; 
             cursor: crosshair;
@@ -70,20 +85,25 @@
 
         #bravo-msg {
             display: none; z-index: 5;
-            color: var(--fdj-blue); font-size: 2.5rem;
+            color: var(--fdj-blue); 
+            font-size: clamp(1.5rem, 6vw, 2.5rem);
             animation: pulse 0.8s infinite;
             background: rgba(255,255,255,0.96);
-            padding: 20px; border-radius: 15px;
+            padding: 15px; border-radius: 12px;
             text-align: center;
-            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            width: 80%;
         }
 
         #gift-btn {
             display: none; z-index: 20;
             background: var(--fdj-red); color: white;
-            border: 3px solid white; padding: 18px 35px;
-            border-radius: 60px; font-size: 1.3rem; cursor: pointer;
-            box-shadow: 0 12px 25px rgba(0,0,0,0.5);
+            border: 3px solid white; 
+            padding: 12px 20px;
+            border-radius: 50px; 
+            font-size: clamp(0.9rem, 4vw, 1.3rem); 
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
             animation: bounce 2s infinite;
             white-space: nowrap;
         }
@@ -94,25 +114,45 @@
             background: rgba(0,0,0,0.97); z-index: 100; 
             flex-direction: column; justify-content: center; align-items: center;
             text-align: center; padding: 20px;
+            box-sizing: border-box;
         }
 
-        .main-prize { color: var(--fdj-yellow); font-size: 3rem; margin-bottom: 30px; text-shadow: 0 0 20px orange;}
-        .indices { color: white; font-size: 1.5rem; line-height: 2; }
+        .main-prize { 
+            color: var(--fdj-yellow); 
+            font-size: clamp(1.8rem, 8vw, 3rem); 
+            margin-bottom: 20px; 
+            text-shadow: 0 0 20px orange;
+        }
+        
+        .indices { 
+            color: white; 
+            font-size: clamp(1rem, 4vw, 1.5rem); 
+            line-height: 1.6; 
+            max-width: 500px;
+        }
 
         @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.1);} 100% {transform: scale(1);} }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-20px);} 60% {transform: translateY(-10px);} }
-        .particle { position: absolute; width: 12px; height: 12px; border-radius: 50%; pointer-events: none; z-index: 200; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-15px);} 60% {transform: translateY(-8px);} }
+        .particle { position: absolute; width: 8px; height: 8px; border-radius: 50%; pointer-events: none; z-index: 200; }
+
+        @media (max-width: 480px) {
+            .ticket { border-width: 4px; }
+            .main-title { margin-bottom: 5px; }
+        }
     </style>
 </head>
 <body>
 
     <h1 class="main-title">✨ Bon Anniversaire Katy ! ✨</h1>
-    <h2 class="main-title">✨  C'est gagné si tu trouves 5 Poissons de couleur differente ! ✨</h2>
+    <h2 class="main-title" style="font-size: clamp(0.9rem, 4vw, 1.3rem); opacity: 0.9;">
+        Trouve 5 Poissons différents pour gagner !
+    </h2>
+
     <div class="ticket">
         <div class="scratch-container">
             <h2 id="bravo-msg">BRAVO !</h2>
             <button id="gift-btn" onclick="explodeGift()">🎁 VOIR MON GAIN !</button>
-            <canvas id="scratch-layer" width="330" height="280"></canvas>
+            <canvas id="scratch-layer"></canvas>
         </div>
     </div>
 
@@ -122,7 +162,7 @@
             <p><i>Indice 1 :</i> Les dorures de Jean Lamour...</p>
             <p><i>Indice 2 :</i> Le goût d'une petite bille d'or ambrée...</p>
             <p><i>Indice 3 :</i> On y croise l'Ecole d'Art Nouveau.</p>
-            <p style="font-size: 2.5rem; margin-top: 50px; color: var(--fdj-yellow);">
+            <p style="font-size: clamp(1.5rem, 6vw, 2.5rem); margin-top: 30px; color: var(--fdj-yellow);">
                 <strong>JOYEUX ANNIVERSAIRE MAMAN !</strong>
             </p>
         </div>
@@ -131,38 +171,61 @@
     <script>
         const canvas = document.getElementById('scratch-layer');
         const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const container = document.querySelector('.scratch-container');
         let drawing = false;
+
+        // Fonction pour adapter le canvas à sa taille réelle à l'écran
+        function resizeCanvas() {
+            const rect = container.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            setup(); // Redessine la couche blanche
+        }
 
         function setup() {
             ctx.fillStyle = '#FFFFFF';
-            ctx.fillRect(0, 0, 330, 280);
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            for(let i=0; i<750; i++) {
+            // Texture grattage adaptée
+            const particleCount = (canvas.width * canvas.height) / 120;
+            for(let i=0; i < particleCount; i++) {
                 ctx.fillStyle = Math.random() > 0.5 ? '#FFD700' : '#E0E0E0';
-                ctx.fillRect(Math.random()*330, Math.random()*280, 2, 2);
+                ctx.fillRect(Math.random()*canvas.width, Math.random()*canvas.height, 2, 2);
             }
 
+            // Texte centré dynamique
             ctx.fillStyle = '#003399';
-            ctx.font = 'bold 26px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('ZONE DE GAIN', 165, 130);
+            const fontSizeBig = Math.max(16, canvas.width / 12);
+            const fontSizeSmall = Math.max(12, canvas.width / 18);
             
-            ctx.font = '18px Arial';
-            ctx.fillText('GRATTEZ ICI', 165, 160);
+            ctx.font = `bold ${fontSizeBig}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.fillText('ZONE DE GAIN', canvas.width/2, canvas.height/2);
+            
+            ctx.font = `${fontSizeSmall}px Arial`;
+            ctx.fillText('GRATTEZ ICI', canvas.width/2, (canvas.height/2) + fontSizeBig);
         }
 
         function scratch(e) {
             if(!drawing) return;
             const rect = canvas.getBoundingClientRect();
-            const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-            const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+            
             ctx.globalCompositeOperation = 'destination-out';
-            ctx.beginPath(); ctx.arc(x, y, 40, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); 
+            // Taille du pinceau proportionnelle
+            const brushSize = canvas.width / 8;
+            ctx.arc(x, y, brushSize, 0, Math.PI*2); 
+            ctx.fill();
             check();
         }
 
         function check() {
-            const data = ctx.getImageData(0,0,330,280).data;
+            const data = ctx.getImageData(0,0,canvas.width,canvas.height).data;
             let count = 0;
             for(let i=3; i<data.length; i+=4) if(data[i]===0) count++;
             
@@ -173,7 +236,6 @@
                     canvas.style.display = 'none';
                     document.getElementById('bravo-msg').style.display = 'block';
                     
-                    // CHANGEMENT : Délai réduit à 3 secondes (3000ms)
                     setTimeout(() => {
                         document.getElementById('bravo-msg').style.display = 'none';
                         document.getElementById('gift-btn').style.display = 'block';
@@ -183,7 +245,9 @@
         }
 
         function explodeGift() {
-            for(let i=0; i<200; i++) createParticle(window.innerWidth/2, window.innerHeight/2);
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            for(let i=0; i<150; i++) createParticle(centerX, centerY);
             setTimeout(() => { document.getElementById('final-reveal').style.display = 'flex'; }, 600);
         }
 
@@ -194,21 +258,34 @@
             p.style.backgroundColor = ['#FFD700', '#FF0000', '#0033FF', '#FFF', '#00FF00'][Math.floor(Math.random()*5)];
             document.body.appendChild(p);
             const angle = Math.random() * Math.PI * 2;
-            const velocity = 8 + Math.random() * 15;
+            const velocity = 5 + Math.random() * 10;
             p.animate([
                 { transform: 'translate(0, 0) scale(1.5)', opacity: 1 },
-                { transform: `translate(${Math.cos(angle)*velocity*60}px, ${Math.sin(angle)*velocity*60}px) scale(0)`, opacity: 0 }
-            ], { duration: 1800, easing: 'ease-out' });
-            setTimeout(() => p.remove(), 1800);
+                { transform: `translate(${Math.cos(angle)*velocity*50}px, ${Math.sin(angle)*velocity*50}px) scale(0)`, opacity: 0 }
+            ], { duration: 1500, easing: 'ease-out' });
+            setTimeout(() => p.remove(), 1500);
         }
 
+        // Events
+        window.addEventListener('resize', resizeCanvas);
         canvas.addEventListener('mousedown', () => drawing=true);
         window.addEventListener('mouseup', () => drawing=false);
         canvas.addEventListener('mousemove', scratch);
-        canvas.addEventListener('touchstart', (e) => { drawing=true; e.preventDefault(); scratch(e); });
+        
+        canvas.addEventListener('touchstart', (e) => { 
+            drawing=true; 
+            if(e.cancelable) e.preventDefault(); 
+            scratch(e); 
+        }, {passive: false});
+        
         canvas.addEventListener('touchend', () => drawing=false);
-        canvas.addEventListener('touchmove', (e) => { e.preventDefault(); scratch(e); });
-        setup();
+        canvas.addEventListener('touchmove', (e) => { 
+            if(e.cancelable) e.preventDefault(); 
+            scratch(e); 
+        }, {passive: false});
+
+        // Init
+        resizeCanvas();
     </script>
 </body>
 </html>
