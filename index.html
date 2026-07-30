@@ -1,340 +1,1555 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Anniversaire de Katy - Les 5 Poissons</title>
-    <style>
-        :root {
-            --fdj-blue: #003399;
-            --fdj-yellow: #ffcc00;
-            --fdj-red: #e60000;
-        }
+<meta charset="UTF-8">
+<title>Carnet de voyage — Pula 2026</title>
+<style>
+  /* ============ DESIGN SYSTEM ============ */
+  :root {
+    --nav-w: 264px;
+    --radius-sm: 10px; --radius-md: 14px; --radius-lg: 18px;
+    --shadow-sm: 0 1px 2px rgba(20,40,40,0.05), 0 2px 8px rgba(20,40,40,0.04);
+    --shadow-md: 0 2px 4px rgba(20,40,40,0.06), 0 8px 24px rgba(20,40,40,0.08);
 
-        body {
-            margin: 0; padding: 0;
-            font-family: 'Arial Black', sans-serif;
-            background-image: url('fond_aquarium.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            height: 100vh; 
-            height: -webkit-fill-available;
-            color: #fff; 
-            overflow: hidden;
-            box-sizing: border-box;
-        }
+    --bg: #f2f5f3;
+    --surface: #ffffff;
+    --surface-tint: #f5f9f2;
+    --surface-sunken: #eef2ee;
+    --text: #16262a;
+    --text-muted: #5c6d6a;
+    --text-faint: #8a9b96;
+    --border: #e2e8e2;
+    --border-strong: #ccd8d1;
 
-        /* --- SYSTÈME DE POISSONS --- */
-        .fish {
-            position: absolute;
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0.95;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            transition: transform 0.2s ease-in-out;
-            filter: drop-shadow(3px 3px 4px rgba(0,0,0,0.4));
-        }
+    --accent: #0e7c86;
+    --accent-strong: #0a5e66;
+    --accent-tint: #e6f3f2;
+    --accent-2: #d1602a;
+    --accent-2-tint: #fbeee5;
+    --gold: #c98f1f;
+    --gold-tint: #fdf3de;
+    --green: #4f8a4a;
+    --green-tint: #ecf5e9;
 
-        @keyframes swim-right {
-            from { left: -200px; }
-            to { left: 110vw; }
-        }
+    --nav-bg: #0e3138;
+    --nav-text: #e8f1ef;
+    --nav-active: #f2b640;
 
-        @keyframes swim-left {
-            from { right: -200px; }
-            to { right: 110vw; }
-        }
+    color-scheme: light;
+  }
 
-        .wrapper {
-            position: relative;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-evenly;
-            height: 100%;
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-        }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #10171a;
+      --surface: #182225;
+      --surface-tint: #1a2b28;
+      --surface-sunken: #131b1d;
+      --text: #eaf2f0;
+      --text-muted: #9db0ac;
+      --text-faint: #6d827e;
+      --border: #263332;
+      --border-strong: #34443f;
 
-        .main-title {
-            font-size: clamp(1rem, 4vh, 1.8rem);
-            color: var(--fdj-yellow);
-            text-shadow: 2px 2px 0px var(--fdj-blue), 0 0 8px rgba(0,0,0,0.5);
-            margin: 0;
-            text-transform: uppercase;
-            text-align: center;
-            line-height: 1.2;
-        }
+      --accent: #35b6bf;
+      --accent-strong: #6fd2d9;
+      --accent-tint: #16302f;
+      --accent-2: #e88052;
+      --accent-2-tint: #33221a;
+      --gold: #f2c15c;
+      --gold-tint: #362a12;
+      --green: #83c07c;
+      --green-tint: #1c2c1a;
 
-        #patience-msg {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 30px;
-            background: rgba(0, 51, 153, 0.7);
-            border-radius: 20px;
-            border: 2px solid var(--fdj-yellow);
-            margin: 20px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
-        }
+      --nav-bg: #0b1517;
+      --nav-text: #e8f1ef;
+      --nav-active: #f2c15c;
 
-        .lib-text {
-            color: var(--fdj-yellow);
-            font-size: clamp(1.1rem, 5vw, 1.6rem);
-            line-height: 1.5;
-            text-shadow: 1px 1px 2px #000;
-        }
-        .lock-text {
-            color: var(--fdj-yellow);
-            font-size: clamp(1.1rem, 5vw, 1.6rem);
-            line-height: 1.5;
-            text-shadow: 1px 1px 2px #000;
-        }
+      color-scheme: dark;
+    }
+  }
 
-        .ticket {
-            display: none; 
-            position: relative; 
-            height: 60vh;
-            aspect-ratio: 420 / 600; 
-            background-image: url('image_78a3ec.png');
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-            border: 3px solid #fff; 
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            user-select: none;
-            touch-action: none;
-        }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text); background: var(--bg);
+    margin: 0; padding: 0; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; background: var(--surface); box-shadow: var(--shadow-md); }
+  .page { padding: 22px 20px 30px; border-bottom: 1px solid var(--border); }
+  .page:last-child { border-bottom: none; }
+  @media (min-width: 620px) { .page { padding: 30px 5vw 36px; } }
 
-        .scratch-container {
-            position: absolute; 
-            width: 78.5%; 
-            height: 46.6%; 
-            top: 67.5%; 
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border-radius: 8px;
-            overflow: hidden; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center;
-        }
+  .cover {
+    position: relative; min-height: 58vh; color: white; text-align: center;
+    overflow: hidden; padding: 0 !important; display: flex; align-items: flex-end;
+    border-bottom: none !important;
+  }
+  .cover img.bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+  .cover::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(8,20,22,0.10) 0%, rgba(8,20,22,0.20) 55%, rgba(8,20,22,0.82) 100%);
+    z-index: 1;
+  }
+  .cover-inner { position: relative; z-index: 2; width: 100%; display: flex; flex-direction: column; align-items: center; padding: 56px 5vw 36px; }
+  .cover h1 { font-size: clamp(26px,6vw,46px); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+  .cover .subtitle { font-size: clamp(13.5px,2vw,18px); font-weight: 400; margin-bottom: 20px; opacity: 0.95; }
+  .cover .badge-row { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; justify-content: center; }
+  .cover .badge { background: rgba(255,255,255,0.16); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 30px; padding: 7px 16px; font-size: 12.5px; font-weight: 500; }
 
-        #scratch-layer {
-            position: absolute; 
-            top: 0; left: 0; 
-            width: 100%; height: 100%;
-            z-index: 10;
-        }
+  h2.section-title { font-size: 22px; font-weight: 800; color: var(--text); letter-spacing: -0.3px;
+    padding-bottom: 10px; margin: 0 0 16px 0; display: flex; align-items: center; gap: 9px;
+    border-bottom: 1px solid var(--border); }
+  h3.sub-title { font-size: 12.5px; color: var(--accent-2); margin: 0 0 8px 0; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 700; }
+  p, li { font-size: 15px; line-height: 1.55; color: var(--text); }
 
-        #bravo-msg { display: none; z-index: 5; color: var(--fdj-blue); font-size: 2rem; background: white; padding: 10px; border-radius: 10px; text-align: center;}
-        #gift-btn { display: none; z-index: 20; background: var(--fdj-red); color: white; padding: 15px; border-radius: 40px; cursor: pointer; border: 2px solid white; animation: bounce 2s infinite; font-weight: bold; }
-        
-        #final-reveal { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.98); z-index: 100; flex-direction: column; 
-            justify-content: center; align-items: center; text-align: center;
-        }
-        
-        .main-prize { color: var(--fdj-yellow); font-size: clamp(1.8rem, 8vw, 2.5rem); margin-bottom: 20px; }
-        .particle { position: absolute; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0 10px 0; font-size: 13.5px; }
+  th { background: var(--accent); color: white; text-align: left; padding: 9px 11px; font-weight: 600; }
+  th:first-child { border-top-left-radius: 8px; } th:last-child { border-top-right-radius: 8px; }
+  td { padding: 8px 11px; border-bottom: 1px solid var(--border); color: var(--text); }
+  tr:nth-child(even) td { background: var(--surface-tint); }
 
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} }
-    </style>
+  .day-banner { border-radius: var(--radius-md); padding: 18px 22px; margin-bottom: 16px; display: flex;
+    justify-content: space-between; align-items: center; color: white; flex-wrap: wrap; gap: 8px;
+    box-shadow: var(--shadow-sm); }
+  .day-banner .icons { font-size: 28px; letter-spacing: 6px; }
+  .day-banner .title { font-size: 18px; font-weight: 700; text-align: right; letter-spacing: -0.2px; }
+
+  .zonegrid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 10px; }
+  @media (min-width: 700px) { .zonegrid { grid-template-columns: 1fr 1fr; } }
+  .zone { background: var(--surface); border-radius: var(--radius-md); padding: 16px 18px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+  .zone.tint { background: var(--surface-tint); }
+  .zone h3.sub-title { margin-bottom: 8px; }
+  .zone ul { margin-left: 18px; padding-left: 2px; }
+  .zone p, .zone li { font-size: 14px; line-height: 1.5; }
+  .zone img { max-height: 340px; width: 100%; object-fit: contain; display: block; margin: 0 auto; border-radius: 8px; }
+  .zone-full { background: var(--surface); border-radius: var(--radius-md); padding: 16px 18px; border: 1px solid var(--border); margin-top: 14px; box-shadow: var(--shadow-sm); }
+  .zone-full.tint { background: var(--surface-tint); }
+  .zone-full h3.sub-title { margin-bottom: 8px; }
+  .zone-full .resto-cols { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 8px; }
+  @media (min-width: 700px) { .zone-full .resto-cols { grid-template-columns: 1fr 1fr; } }
+
+  @media (max-width: 480px) {
+    .day-banner { flex-direction: column; align-items: flex-start; }
+    .day-banner .title { text-align: left; }
+  }
+
+  .day-card { border-left: 5px solid var(--accent, #0e7c86); background: var(--surface-tint); border-radius: var(--radius-sm);
+    padding: 14px 18px; margin-bottom: 12px; }
+  .day-card ul { margin: 6px 0 0 18px; }
+  .tag { display: inline-block; font-size: 11.5px; font-weight: 700; background: var(--gold-tint); color: var(--gold);
+    padding: 2px 10px; border-radius: 10px; margin: 2px 4px 2px 0; }
+  .tag.free { background: var(--green-tint); color: var(--green); }
+  .tag.paid { background: var(--accent-2-tint); color: var(--accent-2); }
+
+  .city-block { background: var(--accent-tint); border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 12px;
+    border-top: 3px solid var(--accent); }
+  .city-block h4 { color: var(--accent-strong); font-size: 16px; margin-bottom: 6px; font-weight: 700; }
+  .dish { background: var(--surface); border: 1px dashed var(--gold); border-radius: var(--radius-sm); padding: 9px 13px;
+    margin: 6px 0; font-size: 13.5px; }
+  .dish b { color: var(--accent-2); }
+
+  .footer-note { font-size: 11px; color: var(--text-faint); text-align: center; border-top: 1px solid var(--border);
+    padding-top: 10px; margin-top: 18px; }
+
+  .resto { background: var(--surface); border-radius: var(--radius-sm); padding: 11px 15px; margin-bottom: 9px;
+    border: 1px solid var(--border); border-left: 4px solid var(--accent-2); overflow: hidden; box-shadow: var(--shadow-sm); }
+  .resto b.name { color: var(--text); font-size: 14.5px; font-weight: 700; }
+  .resto .price { float: right; background: var(--accent-2); color: white; font-size: 11.5px; font-weight: 700;
+    padding: 3px 10px; border-radius: 10px; }
+  .resto .stars { color: var(--gold); font-size: 13px; margin-left: 6px; letter-spacing: 1px; }
+  .resto p { font-size: 13px; margin-top: 4px; color: var(--text-muted); }
+
+  .resto.chosen { border-left-color: var(--accent); background: var(--accent-tint); }
+  .cat-label { font-size: 12px; font-weight: 700; margin: 10px 0 5px; }
+  .cat-label.rapide { color: var(--accent-2); }
+  .cat-label.table { color: var(--accent); }
+  .link-row { margin-top: 8px; }
+
+  .link-row a, .resto p a { color: var(--accent); }
+  .link-row a { font-size: 12.5px; margin-right: 16px; text-decoration: none; font-weight: 700; }
+  .act-links a { display: block; margin-bottom: 6px; color: var(--accent); font-size: 13px; text-decoration: none; font-weight: 700; }
+  a { word-break: break-word; color: var(--accent); }
+  .maps-box { background: var(--accent-tint); border: 2px dashed var(--accent); border-radius: var(--radius-md);
+    padding: 20px; text-align: center; }
+  .maps-box a { display: inline-block; background: var(--accent); color: white !important; font-weight: 700;
+    padding: 12px 22px; border-radius: 30px; text-decoration: none; font-size: 14px; margin: 4px; min-height: 44px; line-height: 20px; }
+  .maps-box a:hover { background: var(--accent-strong); }
+  /* Waze ne gère qu'une destination par lien : un bouton = le point d'arrivée du trajet */
+  .maps-box a.waze { background: #2fb8e0; color: #063241 !important; }
+  .maps-box a.waze:hover { background: #22a3ca; color: #fff !important; }
+  .waze-inline { color: var(--accent); font-weight: 700; text-decoration: none; }
+
+  /* ============ RECHERCHE RESTOS ============ */
+  .resto-search-bar { position: sticky; top: 0; z-index: 5; background: var(--surface); padding: 10px 0 14px; margin: -6px 0 4px; }
+  .resto-search-bar input[type="search"] {
+    width: 100%; font: inherit; font-size: 15px; padding: 12px 16px; border-radius: 30px;
+    border: 1.5px solid var(--border-strong); background: var(--surface-tint); color: var(--text);
+  }
+  .resto-search-bar input[type="search"]:focus { outline: none; border-color: var(--accent); }
+  .resto-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .resto-filters button {
+    font: inherit; font-size: 12.5px; font-weight: 700; padding: 8px 14px; border-radius: 20px;
+    border: 1.5px solid var(--border-strong); background: var(--surface); color: var(--text-muted); cursor: pointer;
+  }
+  .resto-filters button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .resto-count { font-size: 12.5px; color: var(--text-faint); margin: 8px 0 2px; }
+  .resto-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 8px; }
+  @media (min-width: 620px) { .resto-grid { grid-template-columns: 1fr 1fr; } }
+  .resto-empty { text-align: center; color: var(--text-faint); font-size: 14px; padding: 30px 10px; }
+
+  /* ============ NAVIGATION JOUR PAR JOUR (mobile d'abord) ============ */
+  .sidenav {
+    position: fixed; top: 0; left: 0; bottom: 0; width: 280px; max-width: 84vw; z-index: 50;
+    background: var(--nav-bg); color: var(--nav-text); overflow-y: auto;
+    padding: 20px 0 max(20px, env(safe-area-inset-bottom)) 0; box-shadow: 2px 0 20px rgba(0,0,0,0.25);
+    transform: translateX(-100%); transition: transform 0.25s ease;
+  }
+  .sidenav.open { transform: translateX(0); }
+  .sidenav .nav-brand { padding: 0 20px 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+  .sidenav .nav-brand b { display: block; font-size: 16px; letter-spacing: 0.2px; }
+  .sidenav .nav-brand span { font-size: 11.5px; opacity: 0.65; }
+  .sidenav .nav-group { font-size: 10.5px; text-transform: uppercase; letter-spacing: 1px;
+    opacity: 0.5; padding: 18px 20px 6px 20px; }
+  .sidenav a, .sidenav button.nav-item {
+    display: block; width: 100%; text-align: left; background: none; border: none;
+    color: var(--nav-text); font: inherit; font-size: 14px; padding: 11px 20px; cursor: pointer;
+    text-decoration: none; border-left: 3px solid transparent; line-height: 1.3;
+  }
+  .sidenav button.nav-item small { display: block; font-size: 11px; opacity: 0.6; margin-top: 2px; }
+  .sidenav a:hover, .sidenav button.nav-item:hover { background: rgba(255,255,255,0.06); }
+  .sidenav button.nav-item.active { background: rgba(242,182,64,0.14); border-left-color: var(--nav-active); font-weight: 700; }
+  .sidenav .nav-annex a { font-size: 13.5px; opacity: 0.88; }
+
+  .nav-toggle {
+    display: flex; align-items: center; gap: 8px; position: fixed; top: 0; left: 0; right: 0; z-index: 60; height: 54px;
+    background: var(--nav-bg); color: #fff; border: none; font: inherit; font-size: 15px;
+    font-weight: 700; text-align: left; padding: 0 18px; cursor: pointer;
+  }
+  .nav-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 45; backdrop-filter: blur(1px); }
+  .nav-backdrop.open { display: block; }
+
+  body { padding-left: 0; padding-top: 54px; }
+
+  /* un seul jour visible à la fois */
+  .day { display: none; }
+  .day.active { display: block; }
+
+  .day-nav {
+    display: flex; justify-content: space-between; gap: 10px; padding: 10px 16px;
+    position: sticky; bottom: 0; z-index: 4; background: var(--surface);
+    border-top: 1px solid var(--border); padding-bottom: max(10px, env(safe-area-inset-bottom));
+  }
+  .day-nav button {
+    flex: 1; background: var(--surface-tint); border: 1.5px solid var(--border-strong); color: var(--accent); font: inherit;
+    font-size: 14px; font-weight: 700; padding: 12px 16px; border-radius: 24px; cursor: pointer; min-height: 46px;
+  }
+  .day-nav button:hover:not(:disabled) { background: var(--accent); color: #fff; border-color: var(--accent); }
+  /* En début/fin de séjour le bouton manquant est masqué mais garde sa place */
+  .day-nav button:disabled { visibility: hidden; }
+
+  .annex-header { background: var(--surface-sunken); padding: 14px 20px; font-size: 11px; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--text-muted); font-weight: 700; border-top: 3px solid var(--accent); }
+
+  @media (min-width: 900px) {
+    :root { --nav-w: 272px; }
+    body { padding-left: var(--nav-w); padding-top: 0; }
+    .sidenav { width: var(--nav-w); max-width: var(--nav-w); transform: none; box-shadow: 2px 0 14px rgba(0,0,0,0.15); }
+    .nav-toggle, .nav-backdrop { display: none !important; }
+    .day-nav { position: static; border-top: none; background: none; padding: 18px 5vw 30px; }
+  }
+
+  @media print {
+    body { padding-left: 0; }
+    .sidenav, .nav-toggle, .nav-backdrop, .day-nav, .resto-search-bar { display: none !important; }
+    .day { display: block !important; }
+  }
+</style>
 </head>
 <body>
+<button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="sidenav">☰ &nbsp;Jour par jour</button>
+<div class="nav-backdrop" id="navBackdrop"></div>
 
-    <div class="wrapper">
-        <br>
-        <h1 class="main-title">💑 Happy Birthday 💑</h1>
-        <br>
-        <h1 class="lib-text">✨ 5 Poissons de couleurs = Jackpot ✨</h1>
-        <br>
-        <div id="patience-msg">
-            <p class="lock-text">🐟 Attention Katy 🐟<br><br>La patience est de mise...<br>Tu dois ouvrir ton <strong>dernier sachet</strong> avant de jouer !</p>
-        </div>
+<nav class="sidenav" id="sidenav" aria-label="Navigation du carnet">
+  <div class="nav-brand">
+    <b>🇭🇷 PULA 2026</b>
+    <span>02 → 10 août · 5 personnes</span>
+  </div>
+  <div class="nav-group">Jour par jour</div>
+  <!-- les entrées de jours sont générées depuis les sections .day présentes dans la page -->
+  <div id="navDays"></div>
+  <div class="nav-group">Annexes (toujours affichées)</div>
+  <div class="nav-annex">
+    <a href="#annexe-recherche-restos">🔍 Rechercher un resto</a>
+    <a href="#annexe-plats">🍽️ Plats istriens</a>
+    <a href="#annexe-incontournables">✅ Incontournables</a>
+    <a href="#annexe-budget">💰 Budget</a>
+    <a href="#annexe-carte">🗺️ Carte complète</a>
+    <a href="#annexe-restos">🏆 Top 5 restos</a>
+    <a href="#annexe-lexique">🗣️ Lexique</a>
+    <a href="#annexe-activites">🎯 Activités TripAdvisor</a>
+    <a href="#annexe-snorkeling">🤿 Snorkeling libre</a>
+    <a href="#annexe-carte-pula">🗺️ Carte détaillée Pula</a>
+    <a href="#annexe-incontournables-food">🍦 Restos &amp; glaces</a>
+  </div>
+</nav>
 
-        <div class="ticket" id="game-ticket">
-            <div class="scratch-container">
-                <h2 id="bravo-msg">BRAVO !</h2>
-                <button id="gift-btn" onclick="explodeGift()">🎁 VOIR MON GAIN</button>
-                <canvas id="scratch-layer"></canvas>
-            </div>
+<div class="wrap">
+
+<section class="day" id="jour-accueil" data-nav="Accueil" data-sub="Couverture du carnet">
+<!-- ============ COVER ============ -->
+<div class="page cover">
+  <img class="bg" src="cover_pula.png">
+  <div class="cover-inner">
+    <h1>🇭🇷 CROATIE : PULA 2026</h1>
+    <div class="subtitle">Séjour du lundi 3 au lundi 10 août · départ Chambéry dimanche 02/08</div>
+    <div class="badge-row">
+      <div class="badge">👨‍👩‍👧‍👦 5 personnes (3 adultes + 2 ados 13 &amp; 16 ans)</div>
+      <div class="badge">🚗 Citroën Grand C4 Picasso</div>
+      <div class="badge">📍 Chambéry → Pula, Croatie</div>
+    </div>
+  </div>
+</div>
+
+</section>
+
+<section class="day" id="jour-dim02" data-nav="Dim 02/08" data-sub="Chambéry → lac de Garde">
+<!-- ============ TRAJET ALLER - ETAPE 1 ============ -->
+<div class="page">
+  <h2 class="section-title">🚗 Trajet aller (1/2) — Chambéry ➔ Castelnuovo del Garda</h2>
+  <div class="day-card" style="--accent:#0e7c86">
+    <p><b>Dimanche 02/08 : départ ≈15h00</b> — ≈420 km jusqu'à l'étape nuit (via le tunnel du Fréjus, Turin, Milan, Brescia).</p>
+    <ul>
+      <li>⏱️ Temps de route : ~4h30 → arrivée à l'hôtel vers <b>20h00</b></li>
+      <li>🗺️ <a href="https://www.google.com/maps/dir/Chamb%C3%A9ry,+France/Kairos+Garda+Hotel,+Via+XXV+Aprile+36,+Castelnuovo+del+Garda,+Italy" style="color:#0e7c86;">Voir l'itinéraire sur Google Maps</a> · 🚙 <a class="waze-inline" href="https://www.waze.com/ul?q=Kairos%20Garda%20Hotel%20Castelnuovo%20del%20Garda&amp;navigate=yes" target="_blank">Ouvrir dans Waze</a></li>
+    </ul>
+  </div>
+  <div class="maps-box"><a href="https://www.google.com/maps/dir/Chamb%C3%A9ry,+France/Kairos+Garda+Hotel,+Castelnuovo+del+Garda,+Italy" target="_blank">🗺️ Chambéry → Castelnuovo del Garda (≈4h30) — Google Maps</a><a class="waze" href="https://www.waze.com/ul?q=Kairos%20Garda%20Hotel%20Castelnuovo%20del%20Garda&amp;navigate=yes" target="_blank">🚙 Waze → Kairos Garda Hotel</a></div>
+
+  <h3 class="sub-title">🏨 Étape nuit : Kairos Garda Hotel</h3>
+  <div class="resto"><span class="price">à partir de ≈60-90 €/nuit (base, à confirmer en août)</span><b class="name">Kairos Garda Hotel</b><span class="stars">★★☆</span><p>Via XXV Aprile 36, Loc. Cavalcaselle, 37014 Castelnuovo del Garda — hôtel 3 étoiles à 5 min de Peschiera del Garda et 13,9 km de Vérone. Chambres familiales disponibles (1 lit double + 2 lits simples, ou 4 lits simples), parking gratuit, wifi gratuit, petit-déjeuner continental servi de 8h à 10h. Très bien noté (4/5 TripAdvisor, 769 avis ; 9,2/10 sur les comparateurs). <a href="https://www.google.com/maps/search/Kairos%20Garda%20Hotel%20Castelnuovo%20del%20Garda%20Italy" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a></p></div>
+  <ul style="margin-left:18px; margin-top:6px;">
+    <li>Check-in à partir de 14h00 — check-out jusqu'à 10h00</li>
+    <li>Tarif exact à vérifier selon les dates d'août (haute saison) sur booking.com ou tripadvisor</li>
+  </ul>
+  <div class="link-row"><a href="https://www.booking.com/hotel/it/kairos-garda.html">🔗 Réserver sur Booking.com</a> <a href="https://www.tripadvisor.com/Hotel_Review-g644289-d2627092-Reviews-Kairos_Garda_Hotel-Castelnuovo_del_Garda_Province_of_Verona_Veneto.html">🔗 Avis TripAdvisor</a></div>
+
+  <div class="zone-full" style="margin-top:14px;">
+    <h3 class="sub-title">🌅 Soirée d'arrivée — Peschiera del Garda (≈5 min)</h3>
+    <p style="font-size:13.5px; margin-bottom:8px;">Arrivée à 20h00 : juste le temps de poser les valises et de rejoindre Peschiera del Garda pour dîner. Bourg fortifié au bord du lac, vieille ville piétonne agréable le soir. <a href="https://www.google.com/search?q=Peschiera+del+Garda+lac+nuit&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></p>
+    <div class="maps-box" style="margin-bottom:12px;">
+      <a href="https://www.google.com/maps/dir/Kairos+Garda+Hotel+Castelnuovo+del+Garda/Peschiera+del+Garda,+Italy" target="_blank">🗺️ Hôtel → Peschiera del Garda (≈5 min) — Google Maps</a>
+      <a class="waze" href="https://www.waze.com/ul?q=Peschiera+del+Garda+Italy&navigate=yes" target="_blank">🚙 Waze → Peschiera del Garda</a>
+    </div>
+    <h3 class="sub-title" style="margin-top:10px;">🍽️ Dîner du soir (≈20h30)</h3>
+    <p style="font-size:12.5px; color:#6b6250; margin-bottom:6px;">🅿️ Parking gratuit à l'hôtel — rejoindre Peschiera à pied (≈15 min) ou en voiture (≈5 min). Parking Lungolago à Peschiera : ≈1-2 €/h.</p>
+    <div class="resto chosen"><span class="price">≈15-22 €/pers.</span><b class="name">Ristorante Al Combattente</b><span class="stars">★★★</span><p>Piazza Benacense, Peschiera del Garda — cuisine du lac (truite, lavarello), terrasse sur le port intérieur fortifié, service rapide. Idéal en arrivant tard. <a href="https://www.google.com/maps/search/Ristorante+Al+Combattente+Peschiera+del+Garda" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.alcombattente.it/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">🌐 Site</a></p></div>
+    <p class="cat-label rapide">🍔 Rapide</p>
+    <div class="resto"><span class="price">≈10-15 €/pers.</span><b class="name">Pizzeria Al Caminetto</b><span class="stars">★★☆</span><p>Peschiera del Garda — pizzas et pasta, service rapide, familial. <a href="https://www.google.com/maps/search/Pizzeria+Al+Caminetto+Peschiera+del+Garda" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a></p></div>
+    <p class="cat-label table">🍽️ Table</p>
+    <div class="resto"><span class="price">≈20-30 €/pers.</span><b class="name">Il Galeone</b><span class="stars">★★☆</span><p>Front de lac — poisson du lac, vue sur l'eau, ambiance italienne. <a href="https://www.google.com/maps/search/Il+Galeone+Peschiera+del+Garda" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a></p></div>
+  </div>
+
+  <div class="zone-full tint" style="margin-top:14px;">
+    <h3 class="sub-title">☀️ Matin du lundi 03/08 — avant le départ (08h00–09h30)</h3>
+    <p style="font-size:13.5px; margin-bottom:8px;">Petit-déjeuner à l'hôtel (8h–10h). Si vous avez 30–45 min, une courte balade sur les remparts de Peschiera du Garda ou un café au bord du lac avant de reprendre la route vers Piran.</p>
+    <div class="zonegrid" style="margin-top:10px;">
+      <div class="zone tint">
+        <h3 class="sub-title">🏰 Remparts de Peschiera <span class="tag free">Gratuit</span></h3>
+        <p style="font-size:13.5px;">Forteresse vénitienne classée UNESCO (1561), promenade sur les remparts au bord du lac — 20 min suffisent pour faire le tour. <a href="https://www.google.com/search?q=remparts+Peschiera+del+Garda+UNESCO&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></p>
+        <div class="maps-box" style="margin-top:8px;">
+          <a href="https://www.google.com/maps/search/Fortress+Peschiera+del+Garda+Italy" target="_blank">🗺️ Maps</a>
         </div>
+      </div>
+      <div class="zone">
+        <h3 class="sub-title">🌊 Vue sur le lac de Garde <span class="tag free">Gratuit</span></h3>
+        <p style="font-size:13.5px;">Le lac de Garde est le plus grand lac d'Italie (370 km²). Depuis le bord de l'eau à Peschiera, vue sur les collines de la rive opposée. <a href="https://www.google.com/search?q=lac+de+Garde+Peschiera+matin&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></p>
+        <div class="maps-box" style="margin-top:8px;">
+          <a href="https://www.google.com/maps/search/Lago+di+Garda+Peschiera+del+Garda" target="_blank">🗺️ Maps</a>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:12px; color:#9a9080; margin-top:10px; text-align:center;">⚠️ Départ impératif à 09h30 pour respecter le programme du lundi (halte Piran + arrivée Pula).</p>
+  </div>
+
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+</section>
+
+<section class="day" id="jour-lun03" data-nav="Lun 03/08" data-sub="Piran &amp; arrivée à Pula">
+<!-- ============ TRAJET ALLER - ETAPE 2 ============ -->
+<div class="page">
+  <h2 class="section-title">🚗 Trajet aller (2/3) — Castelnuovo del Garda ➔ Piran</h2>
+  <div class="day-card" style="--accent:#0e7c86">
+    <p><b>Lundi 03/08 : départ ≈9h30</b> (après le petit-déjeuner) — ≈340 km jusqu'à Piran (via Vérone, Padoue, Venise, Trieste).</p>
+    <ul>
+      <li>⏱️ Temps de route : ~3h35 → arrivée à Piran en début d'après-midi (≈13h00-13h15)</li>
+      <li>🗺️ <a href="https://www.google.com/maps/dir/Kairos+Garda+Hotel,+Castelnuovo+del+Garda,+Italy/Piran,+Slovenia" style="color:#0e7c86;">Voir l'itinéraire sur Google Maps</a> · 🚙 <a class="waze-inline" href="https://www.waze.com/ul?q=Forna%C4%8De%20Parking%20Piran&amp;navigate=yes" target="_blank">Ouvrir dans Waze</a></li>
+    </ul>
+  </div>
+  <div class="maps-box"><a href="https://www.google.com/maps/dir/Kairos+Garda+Hotel,+Castelnuovo+del+Garda,+Italy/Piran,+Slovenia" target="_blank">🗺️ Castelnuovo del Garda → Piran (≈3h35) — Google Maps</a><a class="waze" href="https://www.waze.com/ul?q=Forna%C4%8De%20Parking%20Piran&amp;navigate=yes" target="_blank">🚙 Waze → Parking Fornače (Piran)</a></div>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+<!-- ============ HALTE PIRAN ============ -->
+<div class="page">
+  <div class="day-banner" style="background:#14a3a3;">
+    <span class="icons">🇸🇮 🏰 🍕</span>
+    <span class="title">LUNDI 03/08 (halte)<br>Piran — visite simple</span>
+  </div>
+  <div class="day-card" style="--accent:#14a3a3">
+    <p><b>📍 Adresse</b> : Vieille ville de Piran, place Tartinijev trg, 6330 Piran, Slovénie</p>
+    <ul>
+      <li>Balade simple : place Tartinijev trg, front de mer, remparts vus depuis la rue (sans montée si le temps manque) <a href="https://www.google.com/search?q=Piran+Slovénie+vieille+ville&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></li>
+      <li>≈1h-1h30 sur place, le temps d'un tour rapide et d'un déjeuner</li>
+      <li>🎟️ Remparts (Obzidje Piran, en option) : ≈3 €/pers. — <a href="https://www.wallsofpiran.com/" style="color:#0e7c86;">wallsofpiran.com</a></li>
+      <li>🅿️ Parking : centre-ville restreint (piéton) — garage Fornače/Amfora à l'entrée de la ville, ≈1,20-3,40 €/h selon horaire, navette gratuite jusqu'à la place Tartini. <a href="https://www.google.com/maps/search/Forna%C4%8De%20Parking%20Piran%20Slovenia" target="_blank" style="color:#0e7c86; font-weight:bold;">🗺️ Maps</a> · <a href="https://www.portoroz.si/en/general-information/parking-lots-and-prices/" target="_blank" style="color:#0e7c86; font-weight:bold;">🌐 Site officiel</a></li>
+    </ul>
+  </div>
+
+  <h3 class="sub-title">🍽️ Déjeuner rapide</h3>
+  <p style="font-size:12.5px; color:#6b6250; margin-bottom:6px;">🅿️ Parking : voir garage Fornače/Amfora ci-dessus, à 5 min à pied</p>
+  <div class="resto chosen"><span class="price">≈8-12 €/pers.</span><b class="name">Pino</b><span class="stars">★★☆</span><p>📍 Tartinijev trg 15, 6330 Piran — pinsas et pizzas rapides sur la place principale, terrasse ombragée. Idéal pour une pause repas courte avant de reprendre la route. <a href="https://www.google.com/maps/search/Pino%20Piran%20Slovenia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a></p></div>
+  <div class="link-row"><a href="https://pinopiran.si/">🔗 Site de Pino</a></div>
+
+  <p class="cat-label rapide">🍔 Autres options rapides</p>
+  <div class="resto"><span class="price">≈10-15 €/pers.</span><b class="name">Oh My Grill</b><span class="stars">★☆☆</span><p>Près du port — grillades et sandwichs à emporter, service rapide. <span style="color:#d1602a; font-weight:bold;">⚠️ à vérifier : l'adresse repérée porte ce nom à Izola, pas à Piran</span> <a href="https://www.google.com/maps/search/Oh%20My%20Grill%20Piran%20Slovenia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a></p></div>
+
+  <p class="cat-label table">🍽️ Autres options (table)</p>
+  <div class="resto"><span class="price">≈10-15 €/pers.</span><b class="name">Fritolin pri cantini</b><span class="stars">★★☆</span><p>Place Fontana — girice et calamars frits, un peu plus posé. <a href="https://www.google.com/maps/search/Fritolin%20pri%20cantini%20Piran%20Slovenia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.facebook.com/p/Fritolin-pri-Cantini-100063585099877/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📘 Facebook</a></p></div>
+  <div class="resto"><span class="price">≈12-18 €/pers.</span><b class="name">Sarajevo 84</b><span class="stars">★★☆</span><p>Cuisine des Balkans, copieuse et authentique. <a href="https://www.google.com/maps/search/Sarajevo%2084%20Piran%20Slovenia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.facebook.com/cevabdzinica.sarajevo/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📘 Facebook</a></p></div>
+
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+<!-- ============ TRAJET ALLER - ETAPE 3 ============ -->
+<div class="page">
+  <h2 class="section-title">🚗 Trajet aller (3/3) — Piran ➔ Pula</h2>
+  <div class="day-card" style="--accent:#0e7c86">
+    <p><b>Lundi 03/08 : départ ≈14h30</b> — 95 km jusqu'à Pula.</p>
+    <ul>
+      <li>⏱️ Temps de route : ~1h10 → arrivée à Pula ≈15h40-16h00</li>
+      <li>🗺️ <a href="https://www.google.com/maps/dir/Piran,+Slovenia/Pula,+Croatia" style="color:#0e7c86;">Voir l'itinéraire sur Google Maps</a> · 🚙 <a class="waze-inline" href="https://www.waze.com/ul?q=Facchinettijeva%20ulica%2051%20Pula&amp;navigate=yes" target="_blank">Ouvrir dans Waze</a></li>
+    </ul>
+  </div>
+  <div class="maps-box"><a href="https://www.google.com/maps/dir/Piran,+Slovenia/Pula,+Croatia" target="_blank">🗺️ Piran → Pula (≈1h10) — Google Maps</a><a class="waze" href="https://www.waze.com/ul?q=Facchinettijeva%20ulica%2051%20Pula&amp;navigate=yes" target="_blank">🚙 Waze → logement à Pula</a></div>
+  <p style="font-size:11px; color:#9a9080; text-align:center;">Trajet total aller (2 jours, 3 étapes) : ≈855 km / ≈9h20 de conduite cumulée.</p>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+<!-- ============ JOUR 1 ============ -->
+<div class="page">
+  <div class="day-banner" style="background:#0e7c86;">
+    <span class="icons">🚗 🍕 🏖️</span>
+    <span class="title">LUNDI 03/08<br>Arrivée à Pula</span>
+  </div>
+  <div class="day-card" style="--accent:#0e7c86">
+    <ul>
+      <li>Arrivée en fin d'après-midi après la halte à Piran</li>
+      <li>📍 Installation au logement : Facchinettijeva ulica 51, 52100 Pula</li>
+      <li>Soir : dîner à la <b>Pizzeria Jupiter</b> (pizzas géantes pour les ados)</li>
+    </ul>
+  </div>
+  <h3 class="sub-title">🍽️ Dîner du soir</h3>
+  <p style="font-size:12.5px; color:#6b6250; margin-bottom:6px;">🅿️ Parking : zone centre Pula (Karolina Parking, voir carte du séjour)</p>
+  <div class="resto chosen"><span class="price">≈12-18 €/pers.</span><b class="name">Pizzeria Jupiter</b><span class="stars">★★★</span><p>📍 Castropola ul. 42, Pula — très bien notée (4,7/5), pizzas géantes, pljukanci au prosciutto et pancakes en dessert. Réserver si possible en haute saison. <a href="https://www.google.com/maps/search/Pizzeria%20Jupiter%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a></p></div>
+  <div class="link-row"><a href="https://pizzeriajupiter.hr">🔗 Site de la Pizzeria</a></div>
+
+  <p class="cat-label rapide">🍔 Autres options rapides</p>
+  <div class="resto"><span class="price">≈8-14 €/pers.</span><b class="name">Ferrovia Pizza</b><span class="stars">★★☆</span><p>Pizza fraîche et bon marché, idéal avec des ados. <a href="https://www.google.com/maps/search/Ferrovia%20Pizza%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a></p></div>
+  <div class="resto"><span class="price">≈10-15 €/pers.</span><b class="name">Kod Kadre</b><span class="stars">★☆☆</span><p>Grillades et čevapčići, cuisine locale simple. <a href="https://www.google.com/maps/search/Kod%20Kadre%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.facebook.com/Kod.Kadre/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📘 Facebook</a></p></div>
+
+  <p class="cat-label table">🍽️ Autres options (table)</p>
+  <div class="resto"><span class="price">≈20-35 €/pers.</span><b class="name">Trattoria Vodnjanka</b><span class="stars">★★★</span><p>Fuži au boškarin et à la truffe, cuisine istrienne raffinée. <a href="https://www.google.com/maps/search/Trattoria%20Vodnjanka%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.facebook.com/p/Trattoria-Vodnjanka-100082961960816/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📘 Facebook</a></p></div>
+  <div class="resto"><span class="price">≈15-25 €/pers.</span><b class="name">Bistro Alighieri</b><span class="stars">★★☆</span><p>Pâtes italiennes et poisson, service soigné. <a href="https://www.google.com/maps/search/Bistro%20Alighieri%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://bistroalighieri.shop/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">🌐 Site</a></p></div>
+  <div class="resto"><span class="price">≈20-28 €/pers.</span><b class="name">Konoba Bocun</b><span class="stars">★★☆</span><p>Goulash istrien, poulpe « sous la cloche ». <a href="https://www.google.com/maps/search/Konoba%20Bocun%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://konoba-bocun.eatbu.hr" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">🌐 Site</a></p></div>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+
+</section>
+
+<section class="day" id="jour-mar04" data-nav="Mar 04/08" data-sub="Arènes &amp; Hawaii Beach">
+<!-- ============ JOUR 2 ============ -->
+<div class="page">
+  <div class="day-banner" style="background:#d1602a;">
+    <span class="icons">🏛️ 🏖️ 🌊</span>
+    <span class="title">MARDI 04/08<br>Culture &amp; plage</span>
+  </div>
+
+  <div class="zonegrid">
+    <div class="zone tint">
+      <h3 class="sub-title">📋 Programme</h3>
+      <ul>
+        <li><b>Matin</b> : les Arènes de Pula — 📍 Flavijevska ul., 52100 Pula — <span class="tag paid">≈10 €/adulte</span> — <a href="https://www.arenapula.hr/en/" style="color:#0e7c86;">arenapula.hr</a> <a href="https://www.google.com/search?q=Arènes+de+Pula+amphithéâtre&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></li>
+        <li>🚗 5 min du centre</li>
+        <li>🅿️ Parking Arène : Karolina Parking (parking à ciel ouvert sur la Riva, ≈200 m de l'Arène), zone payante ≈1-1,5 €/h. <a href="https://www.google.com/maps/search/Karolina%20Parking%20Pula%20Croatia" target="_blank" style="color:#0e7c86; font-weight:bold;">🗺️ Maps</a> · <a href="https://www.pulaparking.hr/" target="_blank" style="color:#0e7c86; font-weight:bold;">🌐 pulaparking.hr</a></li>
+        <li>🅿️ Parking Hawaii Beach : gratuit près des hôtels de Verudela. <a href="https://www.google.com/maps/search/Parking%20Verudela%20Pula%20Croatia" target="_blank" style="color:#0e7c86; font-weight:bold;">🗺️ Maps</a></li>
+        <li><b>Après-midi</b> : Hawaii Beach (Verudela) — 📍 presqu'île de Verudela — sauts de rochers, snorkeling <a href="https://www.google.com/search?q=Hawaii+Beach+Verudela+Pula+Croatia&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></li>
+        <li>🚗 12 min vers Verudela</li>
+      </ul>
+      <div class="dish" style="margin-top:6px; border-color:#d1602a;">🕐 Arrivez à Hawaii Beach avant 9h-10h : calme le matin, plein ensuite.</div>
+    </div>
+    <div class="zone">
+      <h3 class="sub-title">🗺️ Carte</h3>
+      <div class="maps-box"><a href="https://www.google.com/maps/dir/Pula,+Croatia/Hawaii+Beach,+Verudela,+Pula,+Croatia" target="_blank">🗺️ Pula → Hawaii Beach (≈12 min) — Google Maps</a><a class="waze" href="https://www.waze.com/ul?q=Hawaii%20Beach%20Verudela%20Pula&amp;navigate=yes" target="_blank">🚙 Waze → Hawaii Beach</a></div>
+    </div>
+  </div>
+
+  <div class="zone-full">
+    <h3 class="sub-title">🥪 Déjeuner rapide (midi)</h3>
+    <div class="resto"><span class="price">≈8-14 €</span><b class="name">Ferrovia Pizza</b><span class="stars">★★☆</span><p>Pizza fraîche et bon marché, pratique entre l'Arène et la plage. <a href="https://www.google.com/maps/search/Ferrovia%20Pizza%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📍 Maps</a></p></div>
+  </div>
+  <div class="zone-full tint">
+    <h3 class="sub-title">📖 À savoir : l'Arène de Pula</h3>
+    <p><b>27 av. J.-C. — 79 apr. J.-C.</b> Construction commencée sous l'empereur Auguste, achevée sous Vespasien (le bâtisseur du Colisée de Rome). De forme elliptique (132 m x 105 m, 32 m de haut), elle pouvait accueillir jusqu'à 23 000 spectateurs pour des combats de gladiateurs. C'est le 6e plus grand amphithéâtre romain conservé au monde, l'un des rares intacts sur tout son pourtour. Les sous-sols (hypogée), qui abritaient cages et gladiateurs, présentent aujourd'hui une exposition sur la production d'huile d'olive et de vin en Istrie romaine.</p>
+  </div>
+  <div class="zone-full tint">
+    <h3 class="sub-title">📖 À savoir : Hawaii Beach (Verudela)</h3>
+    <p>Crique rocheuse sur la presqu'île de Verudela, réputée pour ses sauts de rochers et ses eaux limpides propices au snorkeling. Très fréquentée, surtout en milieu de journée.</p>
+    <p style="font-size:13px; margin-top:6px;">🎒 Matériel : chaussures d'eau (rochers glissants), masque/tuba, serviette</p>
+  </div>
+  <div class="zone-full">
+    <h3 class="sub-title">💳 Réserver l'entrée en ligne</h3>
+    <div class="act-links">
+      <a href="https://www.viator.com/fr-FR/Pula/d22140-ttd?sortType=external" target="_blank">🎟️ Viator</a>
+      <a href="https://www.tripadvisor.fr/Attraction_Products-g295373-Pula_Istria.html" target="_blank">⭐ TripAdvisor Expériences</a>
+      <a href="https://www.getyourguide.com/pula-l344/" target="_blank">🗺️ GetYourGuide</a>
+    </div>
+    <p style="font-size:13px; margin-top:6px;">🗺️ <a href="https://www.google.com/maps/search/Pula%20Arena%20Croatia" target="_blank" style="color:#0e7c86; font-weight:bold;">Localisation sur Maps</a> · 🅿️ Karolina Parking (≈200 m) · 🎒 Matériel : chaussures confortables, eau, casquette (peu d'ombre sur les gradins)</p>
+  </div>
+  <div class="zone-full tint">
+    <h3 class="sub-title">🍽️ Dîner du soir</h3>
+    <p style="font-size:12.5px; color:#6b6250; margin-bottom:6px;">🅿️ Parking : voir Programme ci-dessus (Karolina Parking / Verudela)</p>
+    <div class="resto chosen"><span class="price">≈12-18 €</span><b class="name">Konoba Kažun</b><span class="stars">★★☆</span><p>Fuži et gnocchis maison, prix doux. <a href="https://www.google.com/maps/search/Konoba%20Ka%C5%BEun%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.facebook.com/KonobaKazunPula/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📘 Facebook</a></p></div>
+    <p class="cat-label rapide">🍔 Rapide</p>
+    <div class="resto"><span class="price">≈8-14 €</span><b class="name">Ferrovia Pizza</b><span class="stars">★★☆</span><p>Pizza fraîche et bon marché. <a href="https://www.google.com/maps/search/Ferrovia%20Pizza%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a></p></div>
+    <div class="resto"><span class="price">≈10-15 €</span><b class="name">Konoba Soprano</b><span class="stars">★☆☆</span><p>Čevapčići dans le pain « lepinja ». <a href="https://www.google.com/maps/search/Konoba%20Soprano%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://konobasoprano.com" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">🌐 Site</a></p></div>
+    <p class="cat-label table">🍽️ Table</p>
+    <div class="resto"><span class="price">≈35-55 €</span><b class="name">Restaurant Farabuto</b><span class="stars">★★★</span><p>Cadre chic, cuisine créative. <a href="https://www.google.com/maps/search/Restaurant%20Farabuto%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="http://www.farabuto.hr/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">🌐 Site</a></p></div>
+    <div class="resto"><span class="price">≈20-28 €</span><b class="name">Konoba Bocun</b><span class="stars">★★☆</span><p>Goulash istrien, poulpe « sous la cloche ». <a href="https://www.google.com/maps/search/Konoba%20Bocun%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://konoba-bocun.eatbu.hr" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">🌐 Site</a></p></div>
+  </div>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+</section>
+
+<section class="day" id="jour-mer05" data-nav="Mer 05/08" data-sub="Kayak &amp; grottes marines">
+<!-- ============ JOUR 3 ============ -->
+<div class="page">
+  <div class="day-banner" style="background:#14a3a3;">
+    <span class="icons">🛶 🤿 🕳️</span>
+    <span class="title">MERCREDI 05/08<br>Sport (kayak)</span>
+  </div>
+
+  <div class="zonegrid">
+    <div class="zone tint">
+      <h3 class="sub-title">📋 Programme</h3>
+      <ul>
+        <li>Grottes marines et snorkeling — 📍 départ plage de Stoja, Pula <a href="https://www.google.com/search?q=grottes+marines+Stoja+Pula+kayak&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></li>
+        <li>🚗 10 min vers Stoja</li>
+        <li>🅿️ Parking : gratuit sur le parking de la plage de Stoja. <a href="https://www.google.com/maps/search/Parking%20Stoja%20Pula%20Croatia" target="_blank" style="color:#0e7c86; font-weight:bold;">🗺️ Maps</a></li>
+        <li>Sortie encadrée : <span class="tag paid">≈29-35 €/pers.</span></li>
+        <li>Prévoir maillot, chaussures d'eau ; site en partie rocheux</li>
+      </ul>
+      <div class="act-links">
+        <a href="https://www.viator.com/fr-FR/Pula/d22140-ttd?sortType=external" target="_blank">🎟️ Viator</a>
+        <a href="https://www.tripadvisor.fr/Attraction_Products-g295373-Pula_Istria.html" target="_blank">⭐ TripAdvisor Expériences</a>
+        <a href="https://www.getyourguide.com/pula-l344/" target="_blank">🗺️ GetYourGuide</a>
+      </div>
+    </div>
+    <div class="zone">
+      <h3 class="sub-title">🗺️ Carte</h3>
+      <div class="maps-box"><a href="https://www.google.com/maps/dir/Pula,+Croatia/Stoja,+Pula,+Croatia" target="_blank">🗺️ Pula → Stoja (≈10 min) — Google Maps</a><a class="waze" href="https://www.waze.com/ul?q=Pla%C5%BEa%20Stoja%20Pula&amp;navigate=yes" target="_blank">🚙 Waze → plage de Stoja</a></div>
+    </div>
+  </div>
+
+  <div class="zone-full">
+    <h3 class="sub-title">📖 À savoir : Stoja</h3>
+    <p>Petite presqu'île à l'ouest du centre de Pula, avec des grottes marines accessibles en kayak et de bons spots de snorkeling le long de la côte rocheuse.</p>
+    <p style="font-size:13px; margin-top:6px;">🎒 Matériel perso conseillé : maillot de rechange, serviette, crème solaire, chaussures d'eau</p>
+  </div>
+  <div class="zone-full tint">
+    <h3 class="sub-title">💳 Réserver une sortie kayak</h3>
+    <div class="act-links">
+      <a href="https://www.viator.com/fr-FR/Pula/d22140-ttd?sortType=external" target="_blank">🎟️ Viator</a>
+      <a href="https://www.tripadvisor.fr/Attraction_Products-g295373-Pula_Istria.html" target="_blank">⭐ TripAdvisor Expériences</a>
+      <a href="https://www.getyourguide.com/pula-l344/" target="_blank">🗺️ GetYourGuide</a>
+    </div>
+    <p style="font-size:13px; margin-top:6px;">🗺️ <a href="https://www.google.com/maps/search/Stoja%20beach%20Pula%20Croatia" target="_blank" style="color:#0e7c86; font-weight:bold;">Localisation sur Maps</a> · 🅿️ Parking gratuit sur place · 🎒 Matériel : maillot, chaussures d'eau, serviette, crème solaire (fourni : kayak, gilet, matériel de snorkeling selon l'offre)</p>
+  </div>
+  <div class="zone-full tint">
+    <h3 class="sub-title">🍽️ Déjeuner</h3>
+    <p style="font-size:12.5px; color:#6b6250; margin-bottom:6px;">🅿️ Parking : gratuit à Stoja, voir Programme ci-dessus</p>
+    <div class="resto chosen"><span class="price">≈10-15 €</span><b class="name">Kod Kadre</b><span class="stars">★☆☆</span><p>Grillades et čevapčići, service rapide. <a href="https://www.google.com/maps/search/Kod%20Kadre%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.facebook.com/Kod.Kadre/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📘 Facebook</a></p></div>
+    <div class="resto-cols">
+      <div>
+        <p class="cat-label rapide">🍔 Rapide</p>
+        <div class="resto"><span class="price">≈8-14 €</span><b class="name">Ferrovia Pizza</b><span class="stars">★★☆</span><p>Pizza fraîche et bon marché. <a href="https://www.google.com/maps/search/Ferrovia%20Pizza%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a></p></div>
+      </div>
+      <div>
+        <p class="cat-label table">🍽️ Table</p>
+        <div class="resto"><span class="price">≈12-18 €</span><b class="name">Konoba Kažun</b><span class="stars">★★☆</span><p>Fuži et gnocchis maison. <a href="https://www.google.com/maps/search/Konoba%20Ka%C5%BEun%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.facebook.com/KonobaKazunPula/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📘 Facebook</a></p></div>
+        <div class="resto"><span class="price">≈10-15 €</span><b class="name">Konoba Soprano</b><span class="stars">★☆☆</span><p>Čevapčići dans le pain « lepinja ». <a href="https://www.google.com/maps/search/Konoba%20Soprano%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://konobasoprano.com" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">🌐 Site</a></p></div>
+      </div>
+    </div>
+  </div>
+  <div class="zone-full tint">
+    <h3 class="sub-title">🍽️ Dîner du soir</h3>
+    <p style="font-size:12.5px; color:#6b6250; margin-bottom:6px;">🅿️ Parking : zone centre Pula (Karolina Parking)</p>
+    <div class="resto chosen"><span class="price">≈12-18 €/pers.</span><b class="name">Pizzeria Jupiter</b><span class="stars">★★★</span><p>Castropola ul. 42, Pula — repos bien mérité après le kayak : pizzas géantes, pljukanci au prosciutto, pancakes en dessert. Réserver en haute saison. <a href="https://www.google.com/maps/search/Pizzeria%20Jupiter%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a></p></div>
+    <div class="resto-cols">
+      <div>
+        <p class="cat-label rapide">🍔 Rapide</p>
+        <div class="resto"><span class="price">≈8-14 €</span><b class="name">Ferrovia Pizza</b><span class="stars">★★☆</span><p>Pizza fraîche et bon marché, si on veut faire simple. <a href="https://www.google.com/maps/search/Ferrovia%20Pizza%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a></p></div>
+      </div>
+      <div>
+        <p class="cat-label table">🍽️ Table</p>
+        <div class="resto"><span class="price">≈15-25 €</span><b class="name">Bistro Alighieri</b><span class="stars">★★☆</span><p>Pâtes italiennes et poisson, service soigné. <a href="https://www.google.com/maps/search/Bistro%20Alighieri%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://bistroalighieri.shop/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">🌐 Site</a></p></div>
+        <div class="resto"><span class="price">≈20-28 €</span><b class="name">Konoba Bocun</b><span class="stars">★★☆</span><p>Goulash istrien, poulpe « sous la cloche ». <a href="https://www.google.com/maps/search/Konoba%20Bocun%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://konoba-bocun.eatbu.hr" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">🌐 Site</a></p></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+</section>
+
+<section class="day" id="jour-jeu06" data-nav="Jeu 06/08" data-sub="Parc national de Brijuni">
+<!-- ============ JOUR 4 ============ -->
+<div class="page">
+  <div class="day-banner" style="background:#0e7c86;">
+    <span class="icons">⛵ 🦓 🚲</span>
+    <span class="title">JEUDI 06/08<br>Parc national de Brijuni</span>
+  </div>
+
+  <div class="zonegrid">
+    <div class="zone tint">
+      <h3 class="sub-title">📋 Programme</h3>
+      <ul>
+        <li>Île sauvage, safari-parc, vélo — 📍 départ port de Fažana <a href="https://www.google.com/search?q=Parc+national+Brijuni+Croatie&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></li>
+        <li>🚗 15 min vers Fažana</li>
+        <li>🅿️ Parking : payant près du port en été (≈1-2 €/h), gratuit un peu plus loin. <a href="https://www.google.com/maps/search/Parking%20Fa%C5%BEana%20port%20Croatia" target="_blank" style="color:#0e7c86; font-weight:bold;">🗺️ Maps</a></li>
+        <li>Guidée : <span class="tag paid">≈50 €/ad., 20 €/ado</span></li>
+      </ul>
+      <div class="act-links">
+        <a href="https://www.viator.com/fr-FR/Pula/d22140-ttd?sortType=external" target="_blank">🎟️ Viator</a>
+        <a href="https://www.tripadvisor.fr/Attraction_Products-g295373-Pula_Istria.html" target="_blank">⭐ TripAdvisor Expériences</a>
+        <a href="https://www.getyourguide.com/pula-l344/" target="_blank">🗺️ GetYourGuide</a>
+      </div>
+    </div>
+    <div class="zone">
+      <h3 class="sub-title">🗺️ Carte</h3>
+      <div class="maps-box"><a href="https://www.google.com/maps/dir/Pula,+Croatia/Fa%C5%BEana,+Croatia" target="_blank">🗺️ Pula → Fažana (puis bateau vers Brijuni) (≈15 min + 15 min bateau) — Google Maps</a><a class="waze" href="https://www.waze.com/ul?q=Fa%C5%BEana%20port%20Croatia&amp;navigate=yes" target="_blank">🚙 Waze → port de Fažana</a></div>
+    </div>
+  </div>
+
+  <div class="zone-full">
+    <h3 class="sub-title">🥪 Déjeuner rapide (midi)</h3>
+    <p style="font-size:13px;">Sur Veliki Brijun, un self-service est disponible près du débarcadère (prix touristiques). Alternative : manger avant d'embarquer.</p>
+    <div class="resto"><span class="price">≈8-12 €</span><b class="name">Snack du port</b><span class="stars">★☆☆</span><p>Fažana, avant l'embarquement. <a href="https://www.google.com/maps/search/Snack%20du%20port%20Fa%C5%BEana%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📍 Maps</a></p></div>
+  </div>
+  <div class="zone-full tint">
+    <h3 class="sub-title">📖 À savoir : Parc national de Brijuni</h3>
+    <p><b>Habité depuis 5 000 ans · Parc national depuis 1983.</b> Archipel de 14 îles au large de Fažana. Villégiature de l'élite romaine dès le 1er siècle av. J.-C. (villa de la baie de Verige, thermes), puis site byzantin (castrum fortifié). Racheté en 1893 par l'industriel autrichien Paul Kupelwieser, l'archipel devient en 1947 la résidence d'été du maréchal Tito, qui y reçoit chefs d'État et stars de cinéma jusqu'en 1979 — d'où le parc-safari (zèbres, lamas offerts par ses invités officiels). Des empreintes fossilisées de dinosaures (≈150 millions d'années) sont visibles près du port d'arrivée.</p>
+  </div>
+  <div class="zone-full tint">
+    <h3 class="sub-title">💳 Réserver l'excursion Brijuni</h3>
+    <div class="act-links">
+      <a href="https://www.viator.com/fr-FR/Pula/d22140-ttd?sortType=external" target="_blank">🎟️ Viator</a>
+      <a href="https://www.tripadvisor.fr/Attraction_Products-g295373-Pula_Istria.html" target="_blank">⭐ TripAdvisor Expériences</a>
+      <a href="https://www.getyourguide.com/pula-l344/" target="_blank">🗺️ GetYourGuide</a>
+    </div>
+    <p style="font-size:13px; margin-top:6px;">🗺️ <a href="https://www.google.com/maps/search/Fa%C5%BEana%20port%20Croatia" target="_blank" style="color:#0e7c86; font-weight:bold;">Localisation du port sur Maps</a> · 🅿️ payant en été près du port · 🎒 Matériel : vélo fourni sur l'île, maillot pour la baignade, casquette (peu d'ombre)</p>
+  </div>
+  <div class="zone-full tint">
+    <h3 class="sub-title">🍽️ Dîner à Fažana</h3>
+    <p style="font-size:12.5px; color:#6b6250; margin-bottom:6px;">🅿️ Parking : port de Fažana, voir Programme ci-dessus</p>
+    <div class="resto chosen"><span class="price">≈15-22 €</span><b class="name">Stara Konoba</b><span class="stars">★★☆</span><p>Girice, calamars frits, ragoût de poulpe. <a href="https://www.google.com/maps/search/Stara%20Konoba%20Fa%C5%BEana%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.facebook.com/stara.konoba.fazana/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📘 Facebook</a></p></div>
+    <div class="resto-cols">
+      <div>
+        <p class="cat-label rapide">🍔 Rapide</p>
+        <div class="resto"><span class="price">≈8-12 €</span><b class="name">Snack du port</b><span class="stars">★☆☆</span><p>Restauration rapide sur le front de mer (nom à confirmer). <a href="https://www.google.com/maps/search/Snack%20du%20port%20Fa%C5%BEana%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a></p></div>
+      </div>
+      <div>
+        <p class="cat-label table">🍽️ Table</p>
+        <div class="resto"><span class="price">≈18-25 €</span><b class="name">Konoba Vasianum</b><span class="stars">★★☆</span><p>Cuisine de poisson traditionnelle. <a href="https://www.google.com/maps/search/Konoba%20Vasianum%20Fa%C5%BEana%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.facebook.com/p/Konoba-Vasianum-100046448449707/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📘 Facebook</a></p></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+</section>
+
+<section class="day" id="jour-ven07" data-nav="Ven 07/08" data-sub="Cap Kamenjak">
+<!-- ============ JOUR 5 ============ -->
+<div class="page">
+  <div class="day-banner" style="background:#7fb069;">
+    <span class="icons">🌿 🏖️ 🍽️</span>
+    <span class="title">VENDREDI 07/08<br>Cap Kamenjak</span>
+  </div>
+
+  <div class="zonegrid">
+    <div class="zone tint">
+      <h3 class="sub-title">📋 Programme</h3>
+      <ul>
+        <li>Réserve naturelle — 📍 Premantura — criques préservées <a href="https://www.google.com/search?q=Cap+Kamenjak+Premantura+Croatie+criques&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></li>
+        <li>🚗 20 min vers Premantura</li>
+        <li>🅿️ Parking : inclus dans l'entrée voiture du parc (≈20 €/jour). <a href="https://www.google.com/maps/search/Cape%20Kamenjak%20entrance%20Premantura%20Croatia" target="_blank" style="color:#0e7c86; font-weight:bold;">🗺️ Maps</a> · <a href="https://kamenjak.hr/en/" target="_blank" style="color:#0e7c86; font-weight:bold;">🌐 kamenjak.hr</a></li>
+        <li>Entrée voiture : <span class="tag paid">≈20 €/jour</span></li>
+      </ul>
+      <div class="act-links">
+        <a href="https://www.viator.com/fr-FR/Pula/d22140-ttd?sortType=external" target="_blank">🎟️ Viator</a>
+        <a href="https://www.tripadvisor.fr/Attraction_Products-g295373-Pula_Istria.html" target="_blank">⭐ TripAdvisor Expériences</a>
+        <a href="https://www.getyourguide.com/pula-l344/" target="_blank">🗺️ GetYourGuide</a>
+      </div>
+    </div>
+    <div class="zone">
+      <h3 class="sub-title">🗺️ Carte</h3>
+      <div class="maps-box"><a href="https://www.google.com/maps/dir/Pula,+Croatia/Premantura,+Croatia" target="_blank">🗺️ Pula → Premantura (Cap Kamenjak) (≈20 min) — Google Maps</a><a class="waze" href="https://www.waze.com/ul?q=Kamenjak%20Premantura&amp;navigate=yes" target="_blank">🚙 Waze → entrée du Cap Kamenjak</a></div>
+    </div>
+  </div>
+
+  <div class="zone-full">
+    <h3 class="sub-title">📖 À savoir : Cap Kamenjak</h3>
+    <p><b>Réserve naturelle depuis 1996.</b> Pointe sud de l'Istrie, longue de près de 30 km de côtes préservées, criques et falaises basses. Le site conserve des traces fossilisées de dinosaures (baie de Pinižule) et le phare de Porer, construit en 1833 sur un îlot isolé au large. Prévoir des chaussures d'eau, le terrain est en partie rocheux.</p>
+  </div>
+  <div class="zone-full tint">
+    <h3 class="sub-title">💳 Réserver des activités autour de Kamenjak</h3>
+    <div class="act-links">
+      <a href="https://www.viator.com/fr-FR/Pula/d22140-ttd?sortType=external" target="_blank">🎟️ Viator</a>
+      <a href="https://www.tripadvisor.fr/Attraction_Products-g295373-Pula_Istria.html" target="_blank">⭐ TripAdvisor Expériences</a>
+      <a href="https://www.getyourguide.com/pula-l344/" target="_blank">🗺️ GetYourGuide</a>
+    </div>
+    <p style="font-size:13px; margin-top:6px;">🗺️ <a href="https://www.google.com/maps/search/Cape%20Kamenjak%20entrance%20Premantura%20Croatia" target="_blank" style="color:#0e7c86; font-weight:bold;">Localisation sur Maps</a> · 🅿️ inclus dans l'entrée voiture (≈20 €/jour) · 🎒 Matériel : chaussures d'eau indispensables (terrain rocheux), masque/tuba, casquette, beaucoup d'eau</p>
+  </div>
+  <div class="zone-full tint">
+    <h3 class="sub-title">🍽️ Déjeuner</h3>
+    <p style="font-size:12.5px; color:#6b6250; margin-bottom:6px;">🅿️ Parking : inclus dans l'entrée du parc Kamenjak</p>
+    <div class="resto chosen"><span class="price">≈10-15 €</span><b class="name">Safari Bar</b><span class="stars">★★★</span><p>Rt. Kamenjak — ambiance tiki, gyros. Espèces uniquement. <a href="https://www.google.com/maps/search/Safari%20Bar%20Premantura%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://safaribar.hr/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">🌐 Site</a></p></div>
+    <div class="resto-cols">
+      <div>
+        <p class="cat-label rapide">🍔 Rapide</p>
+        <div class="resto"><span class="price">≈8-12 €</span><b class="name">Buffet Premantura</b><span class="stars">★☆☆</span><p>Restauration de plage (nom à confirmer). <a href="https://www.google.com/maps/search/Buffet%20Premantura%20Premantura%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a></p></div>
+      </div>
+      <div>
+        <p class="cat-label table">🍽️ Table</p>
+        <div class="resto"><span class="price">≈15-22 €</span><b class="name">Konoba Casa Mia</b><span class="stars">★☆☆</span><p>Ambiance familiale, pâtes et risotto. <a href="https://www.google.com/maps/search/Konoba%20Casa%20Mia%20Premantura%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.facebook.com/p/Konoba-Casa-mia-100063556781763/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📘 Facebook</a></p></div>
+        <div class="resto"><span class="price">≈15-22 €</span><b class="name">Konoba Finera Kuglana</b><span class="stars">★☆☆</span><p>Blitva et calamars, prix décents. <a href="https://www.google.com/maps/search/Konoba%20Finera%20Kuglana%20Premantura%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.facebook.com/p/Konoba-Finera-Premantura-100066713906009/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📘 Facebook</a></p></div>
+      </div>
+    </div>
+  </div>
+  <div class="zone-full tint">
+    <h3 class="sub-title">🍽️ Dîner du soir</h3>
+    <p style="font-size:12.5px; color:#6b6250; margin-bottom:6px;">🅿️ Parking : zone centre Pula (Karolina Parking)</p>
+    <div class="resto chosen"><span class="price">≈20-28 €/pers.</span><b class="name">Konoba Bocun</b><span class="stars">★★☆</span><p>Pula — goulash istrien au boškarin, poulpe « sous la cloche ». Ambiance locale authentique après une journée en pleine nature. <a href="https://www.google.com/maps/search/Konoba%20Bocun%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://konoba-bocun.eatbu.hr" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">🌐 Site</a></p></div>
+    <div class="resto-cols">
+      <div>
+        <p class="cat-label rapide">🍔 Rapide</p>
+        <div class="resto"><span class="price">≈8-14 €</span><b class="name">Ferrovia Pizza</b><span class="stars">★★☆</span><p>Pizza fraîche si on veut faire simple après la route. <a href="https://www.google.com/maps/search/Ferrovia%20Pizza%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a></p></div>
+      </div>
+      <div>
+        <p class="cat-label table">🍽️ Table</p>
+        <div class="resto"><span class="price">≈20-35 €</span><b class="name">Trattoria Vodnjanka</b><span class="stars">★★★</span><p>Fuži au boškarin et à la truffe — idéal avant le dernier week-end. <a href="https://www.google.com/maps/search/Trattoria%20Vodnjanka%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.facebook.com/p/Trattoria-Vodnjanka-100082961960816/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📘 Facebook</a></p></div>
+        <div class="resto"><span class="price">≈12-18 €</span><b class="name">Konoba Kažun</b><span class="stars">★★☆</span><p>Fuži et gnocchis maison, excellent rapport qualité/prix. <a href="https://www.google.com/maps/search/Konoba%20Ka%C5%BEun%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.facebook.com/KonobaKazunPula/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📘 Facebook</a></p></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+</section>
+
+<section class="day" id="jour-sam08" data-nav="Sam 08/08" data-sub="Fort Punta Christo">
+<!-- ============ JOUR 6 ============ -->
+<div class="page">
+  <div class="day-banner" style="background:#d1602a;">
+    <span class="icons">🏰 🌅 🐟</span>
+    <span class="title">SAMEDI 08/08<br>Urbex &amp; poisson</span>
+  </div>
+
+  <div class="zonegrid">
+    <div class="zone tint">
+      <h3 class="sub-title">📋 Programme</h3>
+      <ul>
+        <li>Fort Punta Christo — 📍 Štinjan, Pula — forteresse abandonnée <a href="https://www.google.com/search?q=Fort+Punta+Christo+Pula+Croatie&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></li>
+        <li>🚗 15 min vers Štinjan</li>
+        <li>🅿️ Parking : gratuit (terrain en terre battue près du fort). <a href="https://www.google.com/maps/search/Fort%20Punta%20Christo%20parking%20Croatia" target="_blank" style="color:#0e7c86; font-weight:bold;">🗺️ Maps</a></li>
+        <li>Entrée ≈3 €/pers., espèces uniquement, bar sur place</li>
+      </ul>
+      <div class="act-links">
+        <a href="https://www.viator.com/fr-FR/Pula/d22140-ttd?sortType=external" target="_blank">🎟️ Viator</a>
+        <a href="https://www.tripadvisor.fr/Attraction_Products-g295373-Pula_Istria.html" target="_blank">⭐ TripAdvisor Expériences</a>
+        <a href="https://www.getyourguide.com/pula-l344/" target="_blank">🗺️ GetYourGuide</a>
+      </div>
+    </div>
+    <div class="zone">
+      <h3 class="sub-title">🗺️ Carte</h3>
+      <div class="maps-box"><a href="https://www.google.com/maps/dir/Pula,+Croatia/Fort+Punta+Christo,+%C5%A0tinjan,+Croatia" target="_blank">🗺️ Pula → Fort Punta Christo (Štinjan) (≈15 min) — Google Maps</a><a class="waze" href="https://www.waze.com/ul?q=Fort%20Punta%20Christo%20%C5%A0tinjan&amp;navigate=yes" target="_blank">🚙 Waze → Fort Punta Christo</a></div>
+    </div>
+  </div>
+
+  <div class="zone-full">
+    <h3 class="sub-title">🥪 Déjeuner rapide (midi)</h3>
+    <div class="resto"><span class="price">≈10-15 €</span><b class="name">Kod Kadre</b><span class="stars">★☆☆</span><p>Pula centre, avant de partir vers Štinjan (un bar est aussi présent sur place au Fort). <a href="https://www.google.com/maps/search/Kod%20Kadre%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📍 Maps</a> <a href="https://www.facebook.com/Kod.Kadre/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📘 Facebook</a></p></div>
+  </div>
+  <div class="zone-full tint">
+    <h3 class="sub-title">📖 À savoir : Fort Punta Christo</h3>
+    <p><b>Construit entre 1899 et 1904</b> par la monarchie austro-hongroise, c'est la plus grande forteresse austro-hongroise de la région : plus de 10 000 m², 270 pièces, et un réseau de tunnels souterrains de plus de 1 000 m autrefois utilisé pour stocker les munitions. Perché à 45 m au-dessus de la mer, il défendait l'entrée de la baie de Pula et le chenal de Fažana. Abandonné après la Première Guerre mondiale, il accueille aujourd'hui des festivals (Outlook, Dimensions, Seasplash). Ouvert aux visites libres hors période de festival (entrée ≈3 €/pers., espèces uniquement, bar sur place), le site est accessible toute la journée. Les murs extérieurs offrent un panorama remarquable sur la baie de Pula et le chenal de Fažana.</p>
+    <p style="font-size:13px; margin-top:6px;">🎒 Matériel : chaussures fermées (terrain irrégulier), lampe si exploration des abords, appareil photo</p>
+  </div>
+  <div class="zone-full tint">
+    <h3 class="sub-title">🍽️ Dîner — choix du soir</h3>
+    <p style="font-size:12.5px; color:#6b6250; margin-bottom:6px;">🅿️ Parking : gratuit près du Fort, Konoba Batelina dispose de son propre parking à Banjole</p>
+    <div class="resto chosen"><span class="price">≈45-70 €</span><b class="name">Konoba Batelina</b><span class="stars">★★★</span><p>Čimulje 25, Banjole — fruits de mer haut de gamme. Réservation impérative. <a href="https://www.google.com/maps/search/Konoba%20Batelina%20Banjole%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a></p></div>
+    <div class="resto-cols">
+      <div>
+        <p class="cat-label rapide">🍔 Rapide</p>
+        <div class="resto"><span class="price">≈8-14 €</span><b class="name">Ferrovia Pizza</b><span class="stars">★★☆</span><p>Pizza fraîche, repli plus léger côté budget. <a href="https://www.google.com/maps/search/Ferrovia%20Pizza%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a></p></div>
+      </div>
+      <div>
+        <p class="cat-label table">🍽️ Table</p>
+        <div class="resto"><span class="price">≈15-22 €</span><b class="name">Stara Konoba</b><span class="stars">★★☆</span><p>Fažana — girice, calamars frits, poulpe. <a href="https://www.google.com/maps/search/Stara%20Konoba%20Fa%C5%BEana%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.facebook.com/stara.konoba.fazana/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📘 Facebook</a></p></div>
+        <div class="resto"><span class="price">≈18-25 €</span><b class="name">Konoba Vasianum</b><span class="stars">★★☆</span><p>Fažana — cuisine de poisson traditionnelle. <a href="https://www.google.com/maps/search/Konoba%20Vasianum%20Fa%C5%BEana%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.facebook.com/p/Konoba-Vasianum-100046448449707/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📘 Facebook</a></p></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+</section>
+
+<section class="day" id="jour-dim09" data-nav="Dim 09/08" data-sub="Marché &amp; Gortan Cove">
+<!-- ============ JOUR 7 ============ -->
+<div class="page">
+  <div class="day-banner" style="background:#f2b640; color:#4a3200;">
+    <span class="icons">🛍️ 🏖️ ☕</span>
+    <span class="title" style="color:#4a3200;">DIMANCHE 09/08<br>Marché &amp; détente</span>
+  </div>
+
+  <div class="zonegrid">
+    <div class="zone tint">
+      <h3 class="sub-title">📋 Programme</h3>
+      <ul>
+        <li>Matin : marché central — 📍 Narodni trg, 52100 Pula <a href="https://www.google.com/search?q=marché+central+Pula+Croatie&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></li>
+        <li>Après-midi : Gortan Cove (Gortanova Uvala) <a href="https://www.google.com/search?q=Gortanova+uvala+Pula+crique&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></li>
+        <li>🚗 8 min vers le bord de mer</li>
+        <li>🅿️ Parking marché : payant, zone centre (Karolina Parking le plus proche). <a href="https://www.google.com/maps/search/Karolina%20Parking%20Pula%20Croatia" target="_blank" style="color:#0e7c86; font-weight:bold;">🗺️ Maps</a> · <a href="https://www.pulaparking.hr/" target="_blank" style="color:#0e7c86; font-weight:bold;">🌐 pulaparking.hr</a></li>
+        <li>🅿️ Parking Gortan Cove : gratuit mais limité. <a href="https://www.google.com/maps/search/Gortanova%20uvala%20Pula%20parking%20Croatia" target="_blank" style="color:#0e7c86; font-weight:bold;">🗺️ Maps</a></li>
+      </ul>
+      <div class="dish" style="margin-top:6px; border-color:#f2b640;">🕐 Gortan Cove : entrée dans l'eau progressive, idéale pour une dernière après-midi tranquille.</div>
+    </div>
+    <div class="zone">
+      <h3 class="sub-title">🗺️ Carte</h3>
+      <div class="maps-box"><a href="https://www.google.com/maps/dir/Pula,+Croatia/Gortanova+uvala,+Pula,+Croatia" target="_blank">🗺️ Pula → Gortan Cove (≈8 min) — Google Maps</a><a class="waze" href="https://www.waze.com/ul?q=Gortanova%20uvala%20Pula&amp;navigate=yes" target="_blank">🚙 Waze → Gortanova uvala</a></div>
+    </div>
+  </div>
+
+  <div class="zone-full">
+    <h3 class="sub-title">🥪 Déjeuner rapide (midi)</h3>
+    <p style="font-size:13px;">Idée simple : composer un pique-nique avec les produits frais achetés le matin même au marché central.</p>
+    <div class="resto"><span class="price">≈8-14 €</span><b class="name">Ferrovia Pizza</b><span class="stars">★★☆</span><p>Option pizza si pas envie de pique-nique. <a href="https://www.google.com/maps/search/Ferrovia%20Pizza%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📍 Maps</a></p></div>
+  </div>
+  <div class="zone-full tint">
+    <h3 class="sub-title">📖 À savoir : Gortan Cove</h3>
+    <p>Crique proche du centre de Pula, à l'accès dans l'eau progressif (contrairement à beaucoup de criques istriennes), ce qui en fait une option facile pour finir le séjour en douceur.</p>
+    <p style="font-size:13px; margin-top:6px;">🎒 Matériel : sandales de plage, serviette, panier de marché pour les courses du matin</p>
+  </div>
+  <div class="zone-full tint">
+    <h3 class="sub-title">🍽️ Dernier dîner — choix</h3>
+    <p style="font-size:12.5px; color:#6b6250; margin-bottom:6px;">🅿️ Parking : zone centre Pula (Karolina Parking)</p>
+    <div class="resto chosen"><span class="price">≈20-35 €</span><b class="name">Trattoria Vodnjanka</b><span class="stars">★★★</span><p>Fuži au boškarin et à la truffe, belle façon de clôturer le séjour. <a href="https://www.google.com/maps/search/Trattoria%20Vodnjanka%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.facebook.com/p/Trattoria-Vodnjanka-100082961960816/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📘 Facebook</a></p></div>
+    <div class="resto-cols">
+      <div>
+        <p class="cat-label rapide">🍔 Rapide</p>
+        <div class="resto"><span class="price">≈10-15 €</span><b class="name">Kod Kadre</b><span class="stars">★☆☆</span><p>Grillades et čevapčići, simple et rapide. <a href="https://www.google.com/maps/search/Kod%20Kadre%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.facebook.com/Kod.Kadre/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📘 Facebook</a></p></div>
+      </div>
+      <div>
+        <p class="cat-label table">🍽️ Table</p>
+        <div class="resto"><span class="price">≈35-55 €</span><b class="name">Restaurant Farabuto</b><span class="stars">★★★</span><p>Cadre chic — pour un dernier soir spécial. <a href="https://www.google.com/maps/search/Restaurant%20Farabuto%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="http://www.farabuto.hr/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">🌐 Site</a></p></div>
+        <div class="resto"><span class="price">≈20-28 €</span><b class="name">Konoba Bocun</b><span class="stars">★★☆</span><p>Goulash istrien, poulpe « sous la cloche ». <a href="https://www.google.com/maps/search/Konoba%20Bocun%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://konoba-bocun.eatbu.hr" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">🌐 Site</a></p></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+</section>
+
+<section class="day" id="jour-lun10" data-nav="Lun 10/08" data-sub="Rovinj &amp; retour Chambéry">
+<!-- ============ HALTE ROVINJ ============ -->
+<div class="page">
+  <div class="day-banner" style="background:#14a3a3;">
+    <span class="icons">🏘️ ⛪ 🌊</span>
+    <span class="title">LUNDI 10/08 (halte matin)<br>Rovinj — vieille ville</span>
+  </div>
+
+  <div class="day-card" style="--accent:#14a3a3">
+    <p><b>📍 Vieille ville de Rovinj (Rovigno), 52210 Rovinj, Croatie</b></p>
+    <ul>
+      <li>🚗 35 km depuis Pula — ≈40 min · départ conseillé 08h00 depuis le logement</li>
+      <li>Visite ≈2h à 2h30 : vieux port, rues pavées, église Sainte-Euphémie</li>
+      <li>Déjeuner sur place puis départ vers 12h30 pour Chambéry</li>
+      <li>🅿️ Parking Valdibora (entrée de la vieille ville) : ≈1,50-2 €/h. <a href="https://www.google.com/maps/search/Parking+Valdibora+Rovinj+Croatia" target="_blank" style="color:#0e7c86; font-weight:bold;">🗺️ Maps</a></li>
+    </ul>
+  </div>
+
+  <div class="zonegrid">
+    <div class="zone tint">
+      <h3 class="sub-title">📋 À voir</h3>
+      <ul>
+        <li>🚢 <b>Vieux port</b> : quai des pêcheurs, bateaux colorés, café au bord de l'eau <a href="https://www.google.com/search?q=Rovinj+vieux+port+Croatie&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></li>
+        <li>🌆 <b>Rues piétonnes</b> : cœur médiéval (Grisia), galeries d'art, boutiques locales <a href="https://www.google.com/search?q=Rovinj+Grisia+rues+pavées&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></li>
+        <li>⛪ <b>Église Sainte-Euphémie</b> : clocher baroque (18e s.), vue sur les îlots <span class="tag paid">≈3 €</span> <a href="https://www.google.com/search?q=Église+Sainte-Euphémie+Rovinj+clocher&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></li>
+        <li>🌊 <b>Passeggiata</b> : promenade côtière jusqu'à la pointe du Cap Barbatello <a href="https://www.google.com/search?q=Rovinj+promenade+côtière+Croatie&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></li>
+      </ul>
+      <div class="dish" style="margin-top:6px; border-color:#14a3a3;">🕐 Arriver avant 09h pour profiter de la vieille ville avant l'afflux touristique.</div>
+    </div>
+    <div class="zone">
+      <h3 class="sub-title">🗺️ Carte</h3>
+      <div class="maps-box">
+        <a href="https://www.google.com/maps/dir/Pula,+Croatia/Rovinj,+Croatia" target="_blank">🗺️ Pula → Rovinj (≈40 min) — Google Maps</a>
+        <a class="waze" href="https://www.waze.com/ul?q=Rovinj%20Old%20Town%20Croatia&amp;navigate=yes" target="_blank">🚙 Waze → Rovinj centre</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="zone-full tint">
+    <h3 class="sub-title">📖 À savoir : Rovinj</h3>
+    <p><b>Ancienne cité vénitienne (1283–1797).</b> Construite sur une île reliée au continent en 1763, Rovinj (Rovigno en italien) est l'une des villes les mieux préservées d'Istrie. Son architecture baroque, ses ruelles escarpées et son port de pêche actif lui donnent une atmosphère unique. L'église Sainte-Euphémie (18e siècle) domine la péninsule depuis son promontoire ; son clocher, réplique de celui de Saint-Marc de Venise, offre une vue à 360° sur la côte et les 14 îlots alentour.</p>
+    <p style="font-size:13px; margin-top:6px;">🎒 Chaussures confortables indispensables (rues pavées et montées), appareil photo, espèces pour le clocher.</p>
+  </div>
+
+  <div class="zone-full">
+    <h3 class="sub-title">🍽️ Déjeuner avant de reprendre la route</h3>
+    <p style="font-size:12.5px; color:#6b6250; margin-bottom:6px;">🅿️ Parking Valdibora, ≈200 m du vieux port</p>
+    <div class="resto chosen"><span class="price">≈15-22 €/pers.</span><b class="name">Konoba Viecia Batana</b><span class="stars">★★★</span><p>Vieux port de Rovinj — girice, calamars, risotto à l'encre de seiche ; terrasse avec vue sur les bateaux de pêche. Arriver dès 12h00 avant la cohue. <a href="https://www.google.com/maps/search/Konoba+Viecia+Batana+Rovinj+Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a></p></div>
+    <p class="cat-label rapide">🍔 Rapide (si on veut partir tôt)</p>
+    <div class="resto"><span class="price">≈8-13 €/pers.</span><b class="name">Pizzeria Da Sergio</b><span class="stars">★★★</span><p>Grisia ul. 11 — institution locale depuis les années 1960, meilleure pizza de Rovinj selon les habitués. Espèces uniquement. <span style="color:#d1602a; font-weight:bold;">⚠️ signalée fermée définitivement fin 2024 — à vérifier avant de s'y rendre</span> <a href="https://www.google.com/maps/search/Pizzeria+Da+Sergio+Rovinj+Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a></p></div>
+    <p class="cat-label table">🍽️ Table</p>
+    <div class="resto"><span class="price">≈18-28 €/pers.</span><b class="name">Konoba Ul Ulica</b><span class="stars">★★☆</span><p>Ruelle pavée du centre — pâtes fraîches et poisson du jour, cadre typiquement istrien. <a href="https://www.google.com/maps/search/Konoba+Ul+Ulica+Rovinj+Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a></p></div>
+    <div class="resto"><span class="price">≈12-20 €/pers.</span><b class="name">Balbi</b><span class="stars">★★☆</span><p>Pâtes et risotto, terrasse ombragée dans les ruelles. <a href="https://www.google.com/maps/search/Balbi+restaurant+Rovinj+Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://balbirestaurant.shop/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">🌐 Site</a></p></div>
+  </div>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+<!-- ============ JOUR 8 : RETOUR ============ -->
+<div class="page">
+  <div class="day-banner" style="background:#7fb069;">
+    <span class="icons">🚗 🌙 🏔️</span>
+    <span class="title">LUNDI 10/08<br>Rovinj → Chambéry</span>
+  </div>
+
+  <div class="zonegrid">
+    <div class="zone tint">
+      <h3 class="sub-title">📋 Programme</h3>
+      <ul>
+        <li>08h00 : départ du logement vers Rovinj (halte matin, voir page précédente)</li>
+        <li>12h30 : départ de Rovinj vers Chambéry</li>
+        <li>⏱️ Rovinj → Chambéry : ~9h de route (≈820 km via Rijeka, Trieste, Venise, Turin, Fréjus)</li>
+        <li>🅿️ Parking de nuit à Rovinj : gratuit sur la route depuis Pula (départ en voiture direct)</li>
+      </ul>
+    </div>
+    <div class="zone">
+      <h3 class="sub-title">🗺️ Carte</h3>
+      <div class="maps-box"><a href="https://www.google.com/maps/dir/Rovinj,+Croatia/Chamb%C3%A9ry,+France" target="_blank">🗺️ Rovinj → Chambéry (≈9h) — Google Maps</a><a class="waze" href="https://www.waze.com/ul?q=Chamb%C3%A9ry%20France&amp;navigate=yes" target="_blank">🚙 Waze → Chambéry</a></div>
+    </div>
+  </div>
+  <div class="zone-full">
+    <h3 class="sub-title">🛑 Arrêts conseillés sur le retour</h3>
+    <table>
+      <tr><th>Étape</th><th>Km depuis Rovinj</th><th>Intérêt</th></tr>
+      <tr><td>Rijeka</td><td>≈120 km</td><td>Pause carburant / café — autoroute croate (A8)</td></tr>
+      <tr><td>Trieste</td><td>≈200 km</td><td>Pause café ou glace, bord de mer</td></tr>
+      <tr><td>Venise / Padoue</td><td>≈360 km</td><td>Pause aire de service (A4)</td></tr>
+      <tr><td>Brescia</td><td>≈500 km</td><td>Pause goûter avant les Alpes</td></tr>
+      <tr><td>Tunnel du Fréjus</td><td>≈740 km</td><td>Péage ≈60 € (AR) — inclus dans le budget route</td></tr>
+    </table>
+  </div>
+  <div class="zone-full tint">
+    <h3 class="sub-title">💡 Conseils pratiques</h3>
+    <ul>
+      <li>Départ du logement à 08h00 vers Rovinj ; quitter Rovinj à 12h30 pour éviter les bouchons de sortie de Croatie en août</li>
+      <li>🛂 Frontières traversées : Croatie → Slovénie → Italie → France — prévoir la vignette slovène (obligatoire, ≈18 €/sem., disponible aux stations-service)</li>
+      <li>💳 Péages italiens acceptent la CB ; compter environ 35-45 € de péages entre Pula et Turin</li>
+      <li>⛽ Faire le plein en Croatie avant la frontière : carburant nettement moins cher qu'en Italie</li>
+      <li>🅿️ Pas de nuit d'hôtel prévue — trajet à faire en une journée (≈9h30 de conduite, pauses incluses)</li>
+    </ul>
+  </div>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+</section>
+
+<!-- ============ ANNEXES : toujours affichées, quel que soit le jour actif ============ -->
+<div class="annex-header">📚 Annexes — valables pour tout le séjour</div>
+
+<!-- ============ RECHERCHE / FILTRE RESTOS ============ -->
+<div class="page" id="annexe-recherche-restos">
+  <h2 class="section-title">🔍 Rechercher un restaurant</h2>
+  <p style="margin-bottom:4px;">Tous les restaurants, pizzerias, bars et glaciers croisés dans ce carnet, au même endroit — cherchez par nom ou par ville.</p>
+  <div class="resto-search-bar">
+    <input type="search" id="restoSearchInput" placeholder="🔎 Rechercher par nom ou ville…" autocomplete="off">
+    <div class="resto-filters" id="restoFilters">
+      <button type="button" data-filter="all" class="active">Tous</button>
+      <button type="button" data-filter="rapide">🍔 Rapide</button>
+      <button type="button" data-filter="table">🍽️ Table</button>
+      <button type="button" data-filter="glace">🍦 Glace</button>
+    </div>
+  </div>
+  <p class="resto-count" id="restoCount"></p>
+  <div class="resto-grid" id="restoGrid"></div>
+  <div class="resto-empty" id="restoEmpty" style="display:none;">Aucun restaurant ne correspond à cette recherche.</div>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+<!-- ============ PLATS TYPIQUES ============ -->
+<div class="page" id="annexe-plats">
+  <h2 class="section-title">🍽️ Les plats istriens à connaître</h2>
+  <p style="margin-bottom:12px;">De quoi savoir quoi commander dans les konobas rencontrées pendant le séjour.</p>
+  <div class="zone-full"><b style="color:#d1602a;">Fuži</b> — pâtes fraîches en forme de losange, typiques d'Istrie, souvent servies à la truffe ou en sauce goulasch (avec du boškarin, le bœuf istrien local).</div>
+  <div class="zone-full tint"><b style="color:#d1602a;">Pljukanci</b> — autre pâte fraîche locale, plus fine et allongée, souvent accompagnée de fruits de mer ou de gibier.</div>
+  <div class="zone-full"><b style="color:#d1602a;">Maneštra istarska</b> — soupe épaisse de légumes et haricots, façon minestrone, plat paysan copieux et bon marché.</div>
+  <div class="zone-full tint"><b style="color:#d1602a;">Brudet / Brodet</b> — ragoût de poisson mijoté au vin blanc et à la tomate, servi avec de la polenta. Un classique à goûter au moins une fois.</div>
+  <div class="zone-full"><b style="color:#d1602a;">Buzara</b> (scampi/gamba na buzaru) — crevettes ou langoustines poêlées à l'ail, au vin blanc et au persil.</div>
+  <div class="zone-full tint"><b style="color:#d1602a;">Girice</b> — petits poissons (éperlans) frits entiers, servis en entrée, croustillants et bon marché.</div>
+  <div class="zone-full"><b style="color:#d1602a;">Blitva</b> — bettes vapeur, ail et pomme de terre, accompagnement classique du poisson.</div>
+  <div class="zone-full tint"><b style="color:#d1602a;">Fritule</b> — petits beignets sucrés (parfois au rhum ou aux raisins secs), typiques pour le dessert.</div>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+<!-- ============ INCONTOURNABLES SECTEUR PULA ============ -->
+<div class="page" id="annexe-incontournables">
+  <h2 class="section-title">✅ Autres choses à faire absolument vers Pula</h2>
+  <p style="margin-bottom:12px;">En dehors du programme prévu, si vous avez un peu de temps libre ou voulez varier :</p>
+
+  <div class="zone-full">
+    <h3 class="sub-title">🕳️ Zerostrasse</h3>
+    <p>Réseau de galeries souterraines creusées sous le Kaštel par l'armée austro-hongroise, utilisé comme abri antiaérien lors des deux guerres mondiales. Aujourd'hui espace d'exposition, température constante ≈20°C — idéal en cas de forte chaleur. ≈8 €/pers.</p>
+  </div>
+  <div class="zone-full tint">
+    <h3 class="sub-title">🐠 Aquarium Pula</h3>
+    <p>Installé dans un fort austro-hongrois de la presqu'île de Verudela, c'est le plus grand aquarium de Croatie : espèces adriatiques, tropicales, et un centre de réhabilitation de tortues marines blessées.</p>
+  </div>
+  <div class="zone-full">
+    <h3 class="sub-title">🏛️ Kaštel &amp; Musée historique et maritime d'Istrie</h3>
+    <p>Forteresse dominant la ville, vue panoramique sur le port et le centre historique.</p>
+  </div>
+  <div class="zone-full tint">
+    <h3 class="sub-title">🚪 Arc des Sergii &amp; Forum</h3>
+    <p>Arc de triomphe romain (29-27 av. J.-C.) et ancien forum romain, gratuits, à deux pas de l'Arène — à combiner avec la visite du matin.</p>
+  </div>
+  <div class="zone-full">
+    <h3 class="sub-title">🌊 Presqu'île de Verudela</h3>
+    <p>Pins, criques et sentiers côtiers, ambiance plus posée que le centre — bon complément à Hawaii Beach si vous cherchez un coin plus calme.</p>
+  </div>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+<!-- ============ BUDGET ============ -->
+<div class="page" id="annexe-budget">
+  <h2 class="section-title">💰 Budget estimé (5 pers.)</h2>
+  <table>
+    <tr><th>Poste</th><th>Estimation</th></tr>
+    <tr><td>🚗 Route (péages + tunnel Fréjus + essence)</td><td>~450 €</td></tr>
+    <tr><td>🎟️ Arènes de Pula (5 pers.)</td><td>~50 €</td></tr>
+    <tr><td>🛶 Kayak / grottes marines (5 pers.)</td><td>~150 €</td></tr>
+    <tr><td>⛵ Brijuni — excursion guidée (3 ad. + 2 ados)</td><td>~190 €</td></tr>
+    <tr><td>🌿 Cap Kamenjak (entrée voiture)</td><td>~20 €</td></tr>
+    <tr><td>🏰 Fort Punta Christo (5 pers.)</td><td>~15 €</td></tr>
+    <tr><td>🍴 Restaurants (7 dîners + déjeuners)</td><td>~700 €</td></tr>
+    <tr style="font-weight:bold;"><td>TOTAL</td><td>~1 575 € (hors logement)</td></tr>
+  </table>
+  <div class="city-block" style="border-top-color:#d1602a;">
+    <h4>Détail</h4>
+    <p>Le poste route inclut le tunnel du Fréjus (aller-retour ≈60 €) et les péages italiens, slovènes et croates sur les ≈1 710 km cumulés. Les activités sont détaillées par ligne (Arènes, kayak, Brijuni, Kamenjak, Fort). Les restaurants couvrent les 7 dîners du séjour plus les déjeuners rapides : Pizzeria Jupiter, Safari Bar, Konoba Batelina, Stara Konoba, Trattoria Vodnjanka, plus 2 repas libres — estimation haute pour 5 personnes en haute saison. Budget hébergement (logement Pula + hôtel lac de Garde) non inclus.</p>
+  </div>
+  <div class="footer-note">Carnet de voyage — Pula 2026 · Bon voyage ! 🌊</div>
+</div>
+
+<!-- ============ CARTE COMPLETE ============ -->
+<div class="page" id="annexe-carte">
+  <h2 class="section-title">🗺️ Toutes les visites en un coup d'œil</h2>
+  <p style="margin-bottom:12px;"><span style="background:#7fb069; color:white; padding:2px 10px; border-radius:10px; font-size:12.5px;">● Vert = prévu au programme</span> &nbsp; <span style="background:#0e7c86; color:white; padding:2px 10px; border-radius:10px; font-size:12.5px;">● Bleu = suggestion, non prévu</span></p>
+
+  <div class="maps-box" style="margin-bottom:16px;">
+    <a href="https://www.google.com/maps/dir/Pula,+Croatia/Hawaii+Beach,+Verudela,+Pula,+Croatia/Stoja,+Pula,+Croatia/Fa%C5%BEana,+Croatia/Premantura,+Croatia/Fort+Punta+Christo,+%C5%A0tinjan,+Croatia/Gortanova+uvala,+Pula,+Croatia/Pula,+Croatia" target="_blank">🗺️ Itinéraire complet des 8 arrêts prévus sur Google Maps</a>
+  </div>
+
+  <div class="zone-full">
+    <h3 class="sub-title">✅ Prévu au programme</h3>
+    <table>
+      <tr><th>Lieu</th><th>Jour</th><th>Lien</th></tr>
+      <tr><td>Chambéry</td><td>Départ/retour</td><td><a href="https://www.google.com/maps/search/Chamb%C3%A9ry+France" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>Castelnuovo del Garda</td><td>Étape nuit aller</td><td><a href="https://www.google.com/maps/search/Kairos+Garda+Hotel+Castelnuovo+del+Garda" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>Piran</td><td>Halte aller</td><td><a href="https://www.google.com/maps/search/Piran+Slovenia" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>Pula (base)</td><td>Tous les jours</td><td><a href="https://www.google.com/maps/search/Pula+Croatia" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>Hawaii Beach (Verudela)</td><td>Jour 2</td><td><a href="https://www.google.com/maps/search/Hawaii+Beach+Verudela+Pula" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>Stoja</td><td>Jour 3</td><td><a href="https://www.google.com/maps/search/Stoja+Pula+Croatia" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>Fažana / Brijuni</td><td>Jour 4</td><td><a href="https://www.google.com/maps/search/Fa%C5%BEana+Croatia" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>Premantura / Cap Kamenjak</td><td>Jour 5</td><td><a href="https://www.google.com/maps/search/Premantura+Croatia" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>Fort Punta Christo</td><td>Jour 6</td><td><a href="https://www.google.com/maps/search/Fort+Punta+Christo+Croatia" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>Gortan Cove</td><td>Jour 7</td><td><a href="https://www.google.com/maps/search/Gortanova+uvala+Pula" target="_blank">🗺️ Maps</a></td></tr>
+    </table>
+  </div>
+
+  <div class="zone-full tint">
+    <h3 class="sub-title">💡 Suggestions (non prévues)</h3>
+    <table>
+      <tr><th>Lieu</th><th>Pourquoi y aller</th><th>Lien</th></tr>
+      <tr><td>Zerostrasse</td><td>Tunnels austro-hongrois, frais en été</td><td><a href="https://www.google.com/maps/search/Zerostrasse+Pula" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>Aquarium Pula</td><td>Plus grand aquarium de Croatie</td><td><a href="https://www.google.com/maps/search/Aquarium+Pula" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>Kaštel (Pula Citadel)</td><td>Vue panoramique sur la ville</td><td><a href="https://www.google.com/maps/search/Pula+Citadel" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>Arc des Sergii</td><td>Gratuit, centre-ville</td><td><a href="https://www.google.com/maps/search/Arch+of+the+Sergii+Pula" target="_blank">🗺️ Maps</a></td></tr>
+    </table>
+  </div>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+<!-- ============ TOP 5 RESTOS ============ -->
+<div class="page" id="annexe-restos">
+  <h2 class="section-title">🏆 Top 5 Rapide &amp; Top 5 Table (meilleur rapport qualité/prix)</h2>
+  <p style="margin-bottom:12px;">Sélection parmi tous les restos du séjour, triée par étoiles puis par prix.</p>
+
+  <div class="zone-full">
+    <h3 class="sub-title">🍔 Top 5 Rapide</h3>
+    <div class="resto"><span class="price">≈8-14 €</span><b class="name">Ferrovia Pizza</b><span class="stars">★★☆</span><p>Pula — pizza fraîche et bon marché. <a href="https://www.google.com/maps/search/Ferrovia%20Pizza%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📍 Maps</a></p></div>
+    <div class="resto"><span class="price">≈8-12 €</span><b class="name">Pino</b><span class="stars">★★☆</span><p>Piran — pinsas et pizzas sur la place principale. <a href="https://pinopiran.si/" style="font-size:11px; color:#0e7c86; font-weight:bold;">🌐 Site</a> <a href="https://www.google.com/maps/search/Pino%20Piran%20Slovenia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📍 Maps</a></p></div>
+    <div class="resto"><span class="price">≈8-12 €</span><b class="name">Snack du port</b><span class="stars">★☆☆</span><p>Fažana — restauration rapide sur le front de mer. <a href="https://www.google.com/maps/search/Snack%20du%20port%20Fa%C5%BEana%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📍 Maps</a></p></div>
+    <div class="resto"><span class="price">≈8-12 €</span><b class="name">Buffet Premantura</b><span class="stars">★☆☆</span><p>Premantura — restauration de plage. <a href="https://www.google.com/maps/search/Buffet%20Premantura%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📍 Maps</a></p></div>
+    <div class="resto"><span class="price">≈10-15 €</span><b class="name">Kod Kadre</b><span class="stars">★☆☆</span><p>Pula — grillades et čevapčići, service rapide. <a href="https://www.google.com/maps/search/Kod%20Kadre%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📍 Maps</a> <a href="https://www.facebook.com/Kod.Kadre/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📘 Facebook</a></p></div>
+  </div>
+
+  <div class="zone-full tint">
+    <h3 class="sub-title">🍽️ Top 5 Table</h3>
+    <div class="resto chosen"><span class="price">≈20-35 €</span><b class="name">Trattoria Vodnjanka</b><span class="stars">★★★</span><p>Pula — fuži au boškarin et à la truffe. <a href="https://www.google.com/maps/search/Trattoria%20Vodnjanka%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📍 Maps</a> <a href="https://www.facebook.com/p/Trattoria-Vodnjanka-100082961960816/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📘 Facebook</a></p></div>
+    <div class="resto"><span class="price">≈12-18 €</span><b class="name">Konoba Kažun</b><span class="stars">★★☆</span><p>Pula — fuži et gnocchis maison, très bon rapport qualité/prix. <a href="https://www.google.com/maps/search/Konoba%20Ka%C5%BEun%20Pula%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📍 Maps</a> <a href="https://www.facebook.com/KonobaKazunPula/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📘 Facebook</a></p></div>
+    <div class="resto"><span class="price">≈10-15 €</span><b class="name">Fritolin pri cantini</b><span class="stars">★★☆</span><p>Piran — girice et calamars frits. <a href="https://www.google.com/maps/search/Fritolin%20pri%20cantini%20Piran%20Slovenia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📍 Maps</a> <a href="https://www.facebook.com/p/Fritolin-pri-Cantini-100063585099877/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📘 Facebook</a></p></div>
+    <div class="resto"><span class="price">≈15-22 €</span><b class="name">Stara Konoba</b><span class="stars">★★☆</span><p>Fažana — girice, calamars frits, ragoût de poulpe. <a href="https://www.google.com/maps/search/Stara%20Konoba%20Fa%C5%BEana%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📍 Maps</a> <a href="https://www.facebook.com/stara.konoba.fazana/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📘 Facebook</a></p></div>
+    <div class="resto"><span class="price">≈18-25 €</span><b class="name">Konoba Vasianum</b><span class="stars">★★☆</span><p>Fažana — cuisine de poisson traditionnelle. <a href="https://www.google.com/maps/search/Konoba%20Vasianum%20Fa%C5%BEana%20Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📍 Maps</a> <a href="https://www.facebook.com/p/Konoba-Vasianum-100046448449707/" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold;">📘 Facebook</a></p></div>
+  </div>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+<!-- ============ LEXIQUE ============ -->
+<div class="page" id="annexe-lexique">
+  <h2 class="section-title">🗣️ Petit lexique de survie</h2>
+  <p style="margin-bottom:12px;">Quelques mots simples pour chaque pays traversé — utile même juste pour dire bonjour et merci.</p>
+
+  <div class="zone-full">
+    <h3 class="sub-title">🇭🇷 Croate (Pula, destination principale)</h3>
+    <table>
+      <tr><th>Français</th><th>Croate</th></tr>
+      <tr><td>Bonjour</td><td>Dobar dan</td></tr>
+      <tr><td>Merci</td><td>Hvala</td></tr>
+      <tr><td>S'il vous plaît</td><td>Molim</td></tr>
+      <tr><td>Oui / Non</td><td>Da / Ne</td></tr>
+      <tr><td>Au revoir</td><td>Doviđenja</td></tr>
+      <tr><td>L'addition, s'il vous plaît</td><td>Račun, molim</td></tr>
+      <tr><td>Combien ça coûte ?</td><td>Koliko košta?</td></tr>
+      <tr><td>Excusez-moi</td><td>Oprostite</td></tr>
+    </table>
+  </div>
+
+  <div class="zone-full tint">
+    <h3 class="sub-title">🇸🇮 Slovène (halte à Piran)</h3>
+    <table>
+      <tr><th>Français</th><th>Slovène</th></tr>
+      <tr><td>Bonjour</td><td>Dober dan</td></tr>
+      <tr><td>Merci</td><td>Hvala</td></tr>
+      <tr><td>S'il vous plaît</td><td>Prosim</td></tr>
+      <tr><td>Oui / Non</td><td>Da / Ne</td></tr>
+      <tr><td>Au revoir</td><td>Nasvidenje</td></tr>
+      <tr><td>L'addition, s'il vous plaît</td><td>Račun, prosim</td></tr>
+    </table>
+  </div>
+
+  <div class="zone-full">
+    <h3 class="sub-title">🇮🇹 Italien (étape à Castelnuovo del Garda)</h3>
+    <table>
+      <tr><th>Français</th><th>Italien</th></tr>
+      <tr><td>Bonjour</td><td>Buongiorno</td></tr>
+      <tr><td>Merci</td><td>Grazie</td></tr>
+      <tr><td>S'il vous plaît</td><td>Per favore</td></tr>
+      <tr><td>Oui / Non</td><td>Sì / No</td></tr>
+      <tr><td>Au revoir</td><td>Arrivederci</td></tr>
+      <tr><td>L'addition, s'il vous plaît</td><td>Il conto, per favore</td></tr>
+    </table>
+  </div>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+<!-- ============ ACTIVITÉS TRIPADVISOR ============ -->
+<div class="page" id="annexe-activites">
+  <h2 class="section-title">🎯 Activités à Pula — TripAdvisor</h2>
+  <p style="margin-bottom:12px;">Toutes les activités, visites guidées et expériences disponibles à Pula et en Istrie, notées et commentées par des voyageurs.</p>
+  <div class="maps-box" style="margin-bottom:16px;">
+    <a href="https://www.tripadvisor.fr/Attractions-g295373-Activities-Pula_Istria.html" target="_blank">⭐ Voir toutes les activités à Pula sur TripAdvisor</a>
+  </div>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+<!-- ============ SNORKELING LIBRE ============ -->
+<div class="page" id="annexe-snorkeling">
+  <h2 class="section-title">🤿 Snorkeling libre à Prirodno et alentours</h2>
+  <p style="margin-bottom:12px;">Spots accessibles sans guide ni réservation, depuis le logement (Facchinettijeva ulica 51, Pula). Prévoir masque, tuba et chaussures d'eau.</p>
+
+  <div class="city-block">
+    <h4>📍 Rt Prirodno — spot principal <span class="tag free">Gratuit</span> <a href="https://www.google.com/search?q=Rt+Prirodno+Pula+snorkeling&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></h4>
+    <p>Cap rocheux au nord-ouest de Pula, eaux peu profondes et très claires, fonds de roche et posidonies. Idéal pour familles avec ados : entrée progressive possible par les zones sablonneuses adjacentes, passages plus profonds (3-6 m) le long des rochers pour les plus expérimentés.</p>
+    <ul style="margin: 8px 0 0 18px; font-size:14px;">
+      <li>🚗 Depuis le logement : ≈12 min (via Šišanska ul.) — <b>6,5 km</b></li>
+      <li>🅿️ Parking gratuit en bord de route (arriver avant 09h en août)</li>
+      <li>🌊 Meilleure visibilité : tôt le matin, avant le vent de sud-est</li>
+      <li>🎒 Prévoir : chaussures d'eau (rochers plats mais glissants), gants légers, filet à provisions pour ramasser les éventuels déchets</li>
+    </ul>
+    <div class="maps-box" style="margin-top:12px;">
+      <a href="https://www.google.com/maps/dir/Facchinettijeva+ulica+51,+Pula,+Croatia/Rt+Prirodno,+Pula,+Croatia" target="_blank">🗺️ Logement → Rt Prirodno — Google Maps</a>
+      <a class="waze" href="https://www.waze.com/ul?q=Rt%20Prirodno%20Pula%20Croatia&navigate=yes" target="_blank">🚙 Waze → Rt Prirodno</a>
+    </div>
+  </div>
+
+  <div class="city-block" style="border-top-color:#0e7c86;">
+    <h4>📍 Stoja (complément kayak) <span class="tag free">Gratuit</span> <a href="https://www.google.com/search?q=Stoja+Pula+snorkeling+crique&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></h4>
+    <p>Même presqu'île que la sortie kayak du mercredi, mais accessible librement le long de la côte ouest. Fonds rocheux avec quelques grottes peu profondes, oursins — chaussures d'eau indispensables.</p>
+    <ul style="margin: 8px 0 0 18px; font-size:14px;">
+      <li>🚗 Depuis le logement : ≈10 min — <b>4,5 km</b></li>
+      <li>🅿️ Parking gratuit sur place</li>
+    </ul>
+    <div class="maps-box" style="margin-top:12px;">
+      <a href="https://www.google.com/maps/dir/Facchinettijeva+ulica+51,+Pula,+Croatia/Stoja,+Pula,+Croatia" target="_blank">🗺️ Logement → Stoja — Google Maps</a>
+      <a class="waze" href="https://www.waze.com/ul?q=Pla%C5%BEa%20Stoja%20Pula&navigate=yes" target="_blank">🚙 Waze → Stoja</a>
+    </div>
+  </div>
+
+  <div class="city-block" style="border-top-color:#7fb069;">
+    <h4>📍 Cap Kamenjak — criques de Premantura <span class="tag paid">≈20 €/voiture</span> <a href="https://www.google.com/search?q=Cap+Kamenjak+snorkeling+criques+Premantura&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></h4>
+    <p>Le meilleur snorkeling de la région : eaux cristallines, poissons nombreux, fonds variés (roches, sable, herbiers). Plusieurs criques accessibles à pied depuis les parkings intérieurs du parc.</p>
+    <ul style="margin: 8px 0 0 18px; font-size:14px;">
+      <li>🚗 Depuis le logement : ≈25 min — <b>18 km</b></li>
+      <li>🅿️ Entrée voiture incluse dans les 20 €/jour (déjà prévu au programme du vendredi)</li>
+      <li>💡 Criques conseillées : Uvala Naturalista <a href="https://www.google.com/search?q=Uvala+Naturalista+Kamenjak+snorkeling&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷</a>, Rt Porer (côté ouest, moins de monde) <a href="https://www.google.com/search?q=Rt+Porer+Kamenjak+Croatie+mer&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷</a></li>
+    </ul>
+    <div class="maps-box" style="margin-top:12px;">
+      <a href="https://www.google.com/maps/dir/Facchinettijeva+ulica+51,+Pula,+Croatia/Cape+Kamenjak,+Premantura,+Croatia" target="_blank">🗺️ Logement → Cap Kamenjak — Google Maps</a>
+      <a class="waze" href="https://www.waze.com/ul?q=Kamenjak%20Premantura&navigate=yes" target="_blank">🚙 Waze → Kamenjak</a>
+    </div>
+  </div>
+
+  <div class="zone-full tint" style="margin-top:14px;">
+    <h3 class="sub-title">🎒 Matériel conseillé pour le snorkeling libre</h3>
+    <table>
+      <tr><th>Article</th><th>Indispensable ?</th><th>Remarque</th></tr>
+      <tr><td>Masque + tuba</td><td>✅ Oui</td><td>À apporter — peu de location sur place</td></tr>
+      <tr><td>Chaussures d'eau</td><td>✅ Oui</td><td>Rochers glissants et oursins</td></tr>
+      <tr><td>Palmes courtes</td><td>Recommandé</td><td>Utile sur Kamenjak (courants légers)</td></tr>
+      <tr><td>Crème solaire</td><td>✅ Oui</td><td>Minérale de préférence (protection des fonds)</td></tr>
+      <tr><td>Gants néoprène fins</td><td>Optionnel</td><td>Confort sur les rochers, eau ≈24-26 °C en août</td></tr>
+    </table>
+  </div>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+<!-- ============ CARTE DÉTAILLÉE PULA ============ -->
+<div class="page" id="annexe-carte-pula">
+  <h2 class="section-title">🗺️ Carte détaillée de Pula</h2>
+  <p style="margin-bottom:4px;">📍 <b>Logement : Facchinettijeva ulica 51, 52100 Pula</b></p>
+  <p style="font-size:13px; color:#6b6250; margin-bottom:12px;">La carte est centrée sur le logement. Zoomez pour voir les rues et les sites touristiques à proximité.</p>
+
+  <div style="border-radius:12px; overflow:hidden; border:2px solid #e4ddc9; margin-bottom:14px;">
+    <iframe src="https://maps.google.com/maps?q=Facchinettijeva+ulica+51+Pula+Croatia&z=13&output=embed&hl=fr" width="100%" height="440" style="border:0; display:block;" allowfullscreen="" loading="lazy"></iframe>
+  </div>
+
+  <div class="maps-box" style="margin-bottom:16px;">
+    <a href="https://www.google.com/maps/place/Facchinettijeva+ul.+51,+52100+Pula,+Croatia" target="_blank">📍 Ouvrir le logement sur Google Maps</a>
+    <a class="waze" href="https://www.waze.com/ul?q=Facchinettijeva%20ulica%2051%20Pula&navigate=yes" target="_blank">🚙 Waze → Logement</a>
+  </div>
+
+  <div class="zone-full">
+    <h3 class="sub-title">📏 Distances depuis le logement — sites du programme</h3>
+    <table>
+      <tr><th>Site</th><th>Distance</th><th>Voiture</th><th>Itinéraire</th></tr>
+      <tr><td>🏛️ Arènes de Pula</td><td>≈1,8 km</td><td>≈5 min</td><td><a href="https://www.google.com/maps/dir/Facchinettijeva+ulica+51+Pula+Croatia/Arena+Pula+Croatia" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>🛍️ Marché central (Narodni trg)</td><td>≈1,5 km</td><td>≈5 min</td><td><a href="https://www.google.com/maps/dir/Facchinettijeva+ulica+51+Pula+Croatia/Narodni+trg+Pula+Croatia" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>🏖️ Hawaii Beach (Verudela)</td><td>≈4 km</td><td>≈12 min</td><td><a href="https://www.google.com/maps/dir/Facchinettijeva+ulica+51+Pula+Croatia/Hawaii+Beach+Verudela+Pula+Croatia" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>🛶 Stoja (kayak / snorkeling)</td><td>≈4,5 km</td><td>≈10 min</td><td><a href="https://www.google.com/maps/dir/Facchinettijeva+ulica+51+Pula+Croatia/Stoja+Pula+Croatia" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>🤿 Rt Prirodno (snorkeling libre)</td><td>≈6,5 km</td><td>≈12 min</td><td><a href="https://www.google.com/maps/dir/Facchinettijeva+ulica+51+Pula+Croatia/Rt+Prirodno+Pula+Croatia" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>🏰 Fort Punta Christo (Štinjan)</td><td>≈8 km</td><td>≈15 min</td><td><a href="https://www.google.com/maps/dir/Facchinettijeva+ulica+51+Pula+Croatia/Fort+Punta+Christo+Stinjan+Croatia" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>⛵ Port de Fažana (Brijuni)</td><td>≈10 km</td><td>≈15 min</td><td><a href="https://www.google.com/maps/dir/Facchinettijeva+ulica+51+Pula+Croatia/Fazana+port+Croatia" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>🌿 Cap Kamenjak (Premantura)</td><td>≈18 km</td><td>≈25 min</td><td><a href="https://www.google.com/maps/dir/Facchinettijeva+ulica+51+Pula+Croatia/Cape+Kamenjak+Premantura+Croatia" target="_blank">🗺️ Maps</a></td></tr>
+    </table>
+  </div>
+
+  <div class="zone-full tint">
+    <h3 class="sub-title">ℹ️ Infos pratiques en ville</h3>
+    <table>
+      <tr><th>Service</th><th>Adresse</th><th>Liens</th></tr>
+      <tr><td>🏛️ Office de tourisme</td><td>Forum 3, 52100 Pula</td><td><a href="https://www.google.com/maps/search/Office+tourisme+Pula+Croatia" target="_blank">🗺️ Maps</a> · <a href="https://www.pulainfo.hr/" target="_blank">🌐 pulainfo.hr</a></td></tr>
+      <tr><td>🅿️ Karolina Parking (centre)</td><td>Riva, près de l'Arène</td><td><a href="https://www.google.com/maps/search/Karolina+Parking+Pula+Croatia" target="_blank">🗺️ Maps</a> · <a href="https://www.pulaparking.hr/" target="_blank">🌐 pulaparking.hr</a></td></tr>
+      <tr><td>🛒 Konzum (supermarché)</td><td>Šijanska cesta, Pula</td><td><a href="https://www.google.com/maps/search/Konzum+Pula+Croatia" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>💊 Pharmacie centre-ville</td><td>Giardini ul., Pula</td><td><a href="https://www.google.com/maps/search/pharmacie+Pula+Croatia" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>🏥 Hôpital de Pula</td><td>Zagrebačka ul. 30, Pula</td><td><a href="https://www.google.com/maps/search/Bolnica+Pula+Croatia" target="_blank">🗺️ Maps</a></td></tr>
+      <tr><td>⛽ Station-service (proche logement)</td><td>Šišanska ul., Pula</td><td><a href="https://www.google.com/maps/search/station+essence+Pula+Croatia" target="_blank">🗺️ Maps</a></td></tr>
+    </table>
+  </div>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
+
+<!-- ============ RESTOS & GLACES INCONTOURNABLES ============ -->
+<div class="page" id="annexe-incontournables-food">
+  <h2 class="section-title">🍦 Restos &amp; glaces à faire absolument</h2>
+  <p style="margin-bottom:14px;">Sélection des adresses vraiment incontournables du séjour — à ne rater sous aucun prétexte.</p>
+
+  <div class="zone-full" style="margin-bottom:14px;">
+    <h3 class="sub-title">🍦 Glaces — les meilleures de Pula</h3>
+
+    <div class="resto chosen">
+      <span class="price">≈2-4 €/boule</span>
+      <b class="name">Gelateria Divieto</b>
+      <span class="stars">★★★</span>
+      <p>📍 Sergijevaca ul., Pula — artisan glacier au cœur de la vieille ville, sur la rue piétonne principale. Parfums originaux (lavande, figue, Malvasia), crème onctueuse. La file d'attente en vaut la peine. <a href="https://www.google.com/maps/search/Gelateria+Divieto+Pula+Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.google.com/search?q=Gelateria+Divieto+Pula&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></p>
     </div>
 
-    <div id="final-reveal">
-        <div class="main-prize">✨ WEEK-END À 2 ✨</div>
-        <div style="color: white; padding: 20px; line-height: 1.6;">
-            <p><i>Indice 1 :</i> Les dorures de Jean Lamour...</p>
-            <p><i>Indice 2 :</i> Le goût d'une bille d'or ambrée...</p>
-            <p><i>Indice 3 :</i> On y croise l'Ecole d'Art Nouveau.</p>
-            <p style="font-size: clamp(1.2rem, 6vw, 1.8rem); color: var(--fdj-yellow); margin-top: 30px;"><strong>JOYEUX ANNIVERSAIRE MAMAN !</strong></p>
-        </div>
+    <div class="resto">
+      <span class="price">≈2-3 €/boule</span>
+      <b class="name">Slastičarnica Cacao</b>
+      <span class="stars">★★★</span>
+      <p>📍 Istarska ul., Pula — gelato artisanal très apprécié des habitants, parfums classiques excellents (pistache, noisette, chocolat noir). <a href="https://www.google.com/maps/search/Cacao+gelateria+Pula+Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.google.com/search?q=Slasticarnica+Cacao+Pula+gelato&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></p>
     </div>
 
-    <script>
-        // --- SYSTÈME DE POISSONS ---
-        // Modification : Utilisation de votre fichier poisson.jpg
-        const fishImage = 'poisson.png';
+    <div class="resto">
+      <span class="price">≈2-3 €/boule</span>
+      <b class="name">Gelateria Forum</b>
+      <span class="stars">★★☆</span>
+      <p>📍 Forum ul., Pula — idéalement placée face à l'Arc des Sergii, parfait après la visite de l'Arène. <a href="https://www.google.com/maps/search/gelateria+Forum+Pula+Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a></p>
+    </div>
+  </div>
 
-        function createRealFish() {
-            const fish = document.createElement('div');
-            fish.className = 'fish';
-            fish.style.backgroundImage = `url('${fishImage}')`;
+  <div class="zone-full tint">
+    <h3 class="sub-title">🍽️ Restaurants — à faire absolument</h3>
 
-            const isRight = Math.random() > 0.5;
-            const size = Math.random() * 80 + 70; // Taille adaptée au dessin
-            const duration = Math.random() * 8 + 12;
-            const top = Math.random() * 75 + 10;
+    <div class="dish" style="margin-bottom:10px; border-color:#0e7c86;">💡 Ces adresses sont réparties sur les différents jours du programme. Elles méritent toutes une réservation à l'avance en haute saison.</div>
 
-            fish.style.width = size + 'px';
-            fish.style.height = (size * 0.9) + 'px'; // Proportion du fichier jpg
-            fish.style.top = top + '%';
-            fish.style.animation = `${isRight ? 'swim-right' : 'swim-left'} ${duration}s linear forwards`;
-            
-            // Si nage vers la gauche (swim-left), on inverse l'image horizontalement
-            fish.style.transform = isRight ? 'scaleX(1)' : 'scaleX(-1)';
+    <div class="resto chosen">
+      <span class="price">≈45-70 €/pers.</span>
+      <b class="name">Konoba Batelina</b>
+      <span class="stars">★★★</span>
+      <p>📍 Čimulje 25, Banjole — <b>meilleure table de fruits de mer d'Istrie</b>, tenue par la famille Skoko (pêcheurs depuis 4 générations). Pas de carte écrite : le serveur propose ce qui a été pêché le matin. Réservation impérative plusieurs jours à l'avance. Prévu au programme du samedi 08/08. <a href="https://www.google.com/maps/search/Konoba+Batelina+Banjole+Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.google.com/search?q=Konoba+Batelina+Banjole+Croatie&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></p>
+    </div>
 
-            document.body.appendChild(fish);
-            setTimeout(() => fish.remove(), duration * 1000);
-        }
+    <div class="resto chosen">
+      <span class="price">≈20-35 €/pers.</span>
+      <b class="name">Trattoria Vodnjanka</b>
+      <span class="stars">★★★</span>
+      <p>📍 Pula centre — <b>référence pour les fuži à la truffe et au boškarin</b> (bœuf istrien). Cuisine authentiquement istrienne, cadre chaleureux. Réservation conseillée. Prévu dimanche 09/08. <a href="https://www.google.com/maps/search/Trattoria+Vodnjanka+Pula+Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.google.com/search?q=Trattoria+Vodnjanka+Pula+fuzi&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></p>
+    </div>
 
-        setInterval(createRealFish, 3500);
-        for(let i=0; i<4; i++) setTimeout(createRealFish, Math.random() * 5000);
+    <div class="resto">
+      <span class="price">≈10-15 €/pers.</span>
+      <b class="name">Safari Bar (Cap Kamenjak)</b>
+      <span class="stars">★★★</span>
+      <p>📍 Rt Kamenjak, Premantura — <b>bar tiki mythique au bout du cap</b>, gyros et cocktails les pieds dans l'eau, ambiance unique. Espèces uniquement. Prévu vendredi 07/08. <a href="https://www.google.com/maps/search/Safari+Bar+Premantura+Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.google.com/search?q=Safari+Bar+Kamenjak+Premantura+Croatie&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></p>
+    </div>
 
-        // --- GESTION DES DATES ---
-        const TARGET_DATE = new Date('2026-04-12T00:00:00');
-        const urlParams = new URLSearchParams(window.location.search);
-        const dateParam = urlParams.get('date'); 
-        
-        let shouldUnlock = false;
+    <div class="resto">
+      <span class="price">≈12-18 €/pers.</span>
+      <b class="name">Pizzeria Jupiter</b>
+      <span class="stars">★★★</span>
+      <p>📍 Castropola ul. 42, Pula — <b>pizzas géantes cultes de Pula</b>, incontournable avec des ados. File d'attente possible, réserver. Prévu lundi 03/08 (arrivée). <a href="https://www.google.com/maps/search/Pizzeria+Jupiter+Pula+Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.google.com/search?q=Pizzeria+Jupiter+Pula+pizza+geante&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></p>
+    </div>
 
-        const now = new Date();
-        if (now >= TARGET_DATE) {
-            shouldUnlock = true;
-        } 
+    <div class="resto">
+      <span class="price">≈8-13 €/pers.</span>
+      <b class="name">Pizzeria Da Sergio (Rovinj)</b>
+      <span class="stars">★★★</span>
+      <p>📍 Grisia ul. 11, Rovinj — <b>institution depuis les années 1960</b>, meilleure pizza de Rovinj, file d'attente garantie mais ça va vite. Espèces uniquement. Prévu halte Rovinj du lundi 10/08. <span style="color:#d1602a; font-weight:bold;">⚠️ signalée fermée définitivement fin 2024 — à vérifier avant de s'y rendre</span> <a href="https://www.google.com/maps/search/Pizzeria+Da+Sergio+Rovinj+Croatia" target="_blank" style="font-size:11px; color:#0e7c86; font-weight:bold; white-space:nowrap;">📍 Maps</a> <a href="https://www.google.com/search?q=Pizzeria+Da+Sergio+Rovinj&tbm=isch" target="_blank" style="font-size:11px; color:#d1602a; font-weight:bold; white-space:nowrap;">📷 Photos</a></p>
+    </div>
+  </div>
+  <div class="footer-note">Carnet de voyage — Pula 2026</div>
+</div>
 
-        if (dateParam) {
-            const parts = dateParam.split('/');
-            if (parts.length === 3) {
-                const simDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}T00:00:00`);
-                if (!isNaN(simDate.getTime()) && simDate >= TARGET_DATE) {
-                    shouldUnlock = true;
-                }
-            }
-        }
+</div>
 
-        const ticket = document.getElementById('game-ticket');
-        const lock = document.getElementById('patience-msg');
+<script>
+(function () {
+  var days = Array.prototype.slice.call(document.querySelectorAll('.day'));
+  if (!days.length) return;
 
-        if (shouldUnlock) {
-            lock.style.display = 'none';
-            ticket.style.display = 'block';
-            setTimeout(initGame, 200);
-        }
+  var navDays  = document.getElementById('navDays');
+  var sidenav  = document.getElementById('sidenav');
+  var backdrop = document.getElementById('navBackdrop');
+  var toggle   = document.getElementById('navToggle');
 
-        // --- LOGIQUE DU JEU ---
-        let drawing = false;
-        const canvas = document.getElementById('scratch-layer');
-        const ctx = canvas.getContext('2d', { willReadFrequently: true });
-        const container = document.querySelector('.scratch-container');
+  // Le menu et les boutons précédent/suivant sont construits depuis les sections .day
+  // présentes dans le document : ajouter un jour dans le HTML suffit, rien à modifier ici.
+  days.forEach(function (day, i) {
+    var item = document.createElement('button');
+    item.type = 'button';
+    item.className = 'nav-item';
+    item.dataset.target = day.id;
+    item.innerHTML = day.dataset.nav + (day.dataset.sub ? '<small>' + day.dataset.sub + '</small>' : '');
+    item.addEventListener('click', function () { goTo(day.id); });
+    navDays.appendChild(item);
 
-        function initGame() {
-            if (!shouldUnlock) return;
-            const rect = container.getBoundingClientRect();
-            canvas.width = rect.width;
-            canvas.height = rect.height;
-            setup();
-        }
+    var prev = days[i - 1], next = days[i + 1];
+    var pager = document.createElement('div');
+    pager.className = 'day-nav';
+    pager.appendChild(makePagerButton(prev, '◀ '));
+    pager.appendChild(makePagerButton(next, null, ' ▶'));
+    day.appendChild(pager);
+  });
 
-        function setup() {
-            ctx.fillStyle = '#FFFFFF';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            for(let i=0; i < 500; i++) {
-                ctx.fillStyle = Math.random() > 0.5 ? '#FFD700' : '#E0E0E0';
-                ctx.fillRect(Math.random()*canvas.width, Math.random()*canvas.height, 2, 2);
-            }
-            ctx.fillStyle = '#003399';
-            ctx.textAlign = 'center';
-            ctx.font = `bold ${canvas.width/10}px Arial`;
-            ctx.fillText('ZONE DE GAIN', canvas.width/2, canvas.height/2);
-            ctx.font = `${canvas.width/15}px Arial`;
-            ctx.fillText('GRATTEZ ICI', canvas.width/2, canvas.height/2 + (canvas.width/10));
-        }
+  function makePagerButton(target, before, after) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    if (!target) { b.disabled = true; b.textContent = ''; return b; }
+    b.textContent = (before || '') + target.dataset.nav + (after || '');
+    b.addEventListener('click', function () { goTo(target.id); });
+    return b;
+  }
 
-        function scratch(e) {
-            if(!drawing || !shouldUnlock) return;
-            const rect = canvas.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            const x = clientX - rect.left;
-            const y = clientY - rect.top;
-            ctx.globalCompositeOperation = 'destination-out';
-            ctx.beginPath(); 
-            ctx.arc(x, y, canvas.width / 6, 0, Math.PI*2); 
-            ctx.fill();
-            check();
-        }
+  function showDay(id) {
+    days.forEach(function (d) { d.classList.toggle('active', d.id === id); });
+    Array.prototype.forEach.call(navDays.children, function (b) {
+      b.classList.toggle('active', b.dataset.target === id);
+      if (b.dataset.target === id) b.setAttribute('aria-current', 'true');
+      else b.removeAttribute('aria-current');
+    });
+  }
 
-        function check() {
-            const data = ctx.getImageData(0,0,canvas.width,canvas.height).data;
-            let count = 0;
-            for(let i=3; i<data.length; i+=4) if(data[i]===0) count++;
-            if(count > (data.length/4)*0.75) {
-                canvas.style.transition = 'opacity 0.8s';
-                canvas.style.opacity = '0';
-                setTimeout(() => {
-                    canvas.style.display = 'none';
-                    document.getElementById('bravo-msg').style.display = 'block';
-                    setTimeout(() => {
-                        document.getElementById('bravo-msg').style.display = 'none';
-                        document.getElementById('gift-btn').style.display = 'block';
-                    }, 3000);
-                }, 800);
-            }
-        }
+  function goTo(id) {
+    showDay(id);
+    history.replaceState(null, '', '#' + id);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    closeNav();
+  }
 
-        function explodeGift() {
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight / 2;
-            for(let i=0; i<100; i++) createParticle(centerX, centerY);
-            setTimeout(() => { document.getElementById('final-reveal').style.display = 'flex'; }, 600);
-        }
+  function isDay(id) {
+    return days.some(function (d) { return d.id === id; });
+  }
 
-        function createParticle(x, y) {
-            const p = document.createElement('div');
-            p.className = 'particle';
-            p.style.left = x + 'px'; p.style.top = y + 'px';
-            p.style.backgroundColor = ['#FFD700', '#FF0000', '#FFF', '#00FF00'][Math.floor(Math.random()*4)];
-            document.body.appendChild(p);
-            const angle = Math.random() * Math.PI * 2;
-            const velocity = 3 + Math.random() * 6;
-            p.animate([
-                { transform: 'translate(0, 0) scale(1.5)', opacity: 1 },
-                { transform: `translate(${Math.cos(angle)*velocity*40}px, ${Math.sin(angle)*velocity*40}px) scale(0)`, opacity: 0 }
-            ], { duration: 1000, easing: 'ease-out' });
-            setTimeout(() => p.remove(), 1000);
-        }
+  function openNav()  { sidenav.classList.add('open');  backdrop.classList.add('open');  toggle.setAttribute('aria-expanded', 'true'); }
+  function closeNav() { sidenav.classList.remove('open'); backdrop.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); }
 
-        window.addEventListener('resize', initGame);
-        canvas.addEventListener('mousedown', () => drawing=true);
-        window.addEventListener('mouseup', () => drawing=false);
-        canvas.addEventListener('mousemove', scratch);
-        canvas.addEventListener('touchstart', (e) => { drawing=true; if(e.cancelable) e.preventDefault(); scratch(e); }, {passive: false});
-        canvas.addEventListener('touchend', () => drawing=false);
-        canvas.addEventListener('touchmove', (e) => { if(e.cancelable) e.preventDefault(); scratch(e); }, {passive: false});
-    </script>
+  toggle.addEventListener('click', function () {
+    if (sidenav.classList.contains('open')) closeNav(); else openNav();
+  });
+  backdrop.addEventListener('click', closeNav);
+  // Les liens d'annexes ferment le menu mobile mais laissent l'ancre agir normalement
+  document.querySelectorAll('.nav-annex a').forEach(function (a) {
+    a.addEventListener('click', closeNav);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeNav();
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    var i = days.findIndex(function (d) { return d.classList.contains('active'); });
+    var target = days[e.key === 'ArrowLeft' ? i - 1 : i + 1];
+    if (target) goTo(target.id);
+  });
+
+  // Une ancre de jour ouvre le jour ; une ancre d'annexe garde le jour courant.
+  window.addEventListener('hashchange', function () {
+    var id = location.hash.replace('#', '');
+    if (isDay(id)) showDay(id);
+  });
+
+  var initial = location.hash.replace('#', '');
+  showDay(isDay(initial) ? initial : days[0].id);
+})();
+</script>
+
+<script>
+(function () {
+  var RESTOS = [
+    {name:"Ristorante Al Combattente", city:"Peschiera del Garda 🇮🇹", price:"≈15-22 €/pers.", stars:3, cat:"table", maps:"https://www.google.com/maps/search/Ristorante+Al+Combattente+Peschiera+del+Garda", site:"https://www.alcombattente.it/"},
+    {name:"Pizzeria Al Caminetto", city:"Peschiera del Garda 🇮🇹", price:"≈10-15 €/pers.", stars:2, cat:"rapide", maps:"https://www.google.com/maps/search/Pizzeria+Al+Caminetto+Peschiera+del+Garda"},
+    {name:"Il Galeone", city:"Peschiera del Garda 🇮🇹", price:"≈20-30 €/pers.", stars:2, cat:"table", maps:"https://www.google.com/maps/search/Il+Galeone+Peschiera+del+Garda"},
+    {name:"Pino", city:"Piran 🇸🇮", price:"≈8-12 €/pers.", stars:2, cat:"rapide", maps:"https://www.google.com/maps/search/Pino%20Piran%20Slovenia", site:"https://pinopiran.si/"},
+    {name:"Oh My Grill", city:"Piran 🇸🇮", price:"≈10-15 €/pers.", stars:1, cat:"rapide", maps:"https://www.google.com/maps/search/Oh%20My%20Grill%20Piran%20Slovenia", note:"⚠️ à vérifier : adresse repérée à Izola, pas à Piran"},
+    {name:"Fritolin pri cantini", city:"Piran 🇸🇮", price:"≈10-15 €/pers.", stars:2, cat:"table", maps:"https://www.google.com/maps/search/Fritolin%20pri%20cantini%20Piran%20Slovenia", site:"https://www.facebook.com/p/Fritolin-pri-Cantini-100063585099877/"},
+    {name:"Sarajevo 84", city:"Piran 🇸🇮", price:"≈12-18 €/pers.", stars:2, cat:"table", maps:"https://www.google.com/maps/search/Sarajevo%2084%20Piran%20Slovenia", site:"https://www.facebook.com/cevabdzinica.sarajevo/"},
+    {name:"Pizzeria Jupiter", city:"Pula 🇭🇷", price:"≈12-18 €/pers.", stars:3, cat:"table", maps:"https://www.google.com/maps/search/Pizzeria%20Jupiter%20Pula%20Croatia", site:"https://pizzeriajupiter.hr"},
+    {name:"Ferrovia Pizza", city:"Pula 🇭🇷", price:"≈8-14 €/pers.", stars:2, cat:"rapide", maps:"https://www.google.com/maps/search/Ferrovia%20Pizza%20Pula%20Croatia"},
+    {name:"Kod Kadre", city:"Pula 🇭🇷", price:"≈10-15 €/pers.", stars:1, cat:"rapide", maps:"https://www.google.com/maps/search/Kod%20Kadre%20Pula%20Croatia", site:"https://www.facebook.com/Kod.Kadre/"},
+    {name:"Trattoria Vodnjanka", city:"Pula 🇭🇷", price:"≈20-35 €/pers.", stars:3, cat:"table", maps:"https://www.google.com/maps/search/Trattoria%20Vodnjanka%20Pula%20Croatia", site:"https://www.facebook.com/p/Trattoria-Vodnjanka-100082961960816/"},
+    {name:"Bistro Alighieri", city:"Pula 🇭🇷", price:"≈15-25 €/pers.", stars:2, cat:"table", maps:"https://www.google.com/maps/search/Bistro%20Alighieri%20Pula%20Croatia", site:"https://bistroalighieri.shop/"},
+    {name:"Konoba Bocun", city:"Pula 🇭🇷", price:"≈20-28 €/pers.", stars:2, cat:"table", maps:"https://www.google.com/maps/search/Konoba%20Bocun%20Pula%20Croatia", site:"https://konoba-bocun.eatbu.hr"},
+    {name:"Konoba Kažun", city:"Pula 🇭🇷", price:"≈12-18 €/pers.", stars:2, cat:"table", maps:"https://www.google.com/maps/search/Konoba%20Ka%C5%BEun%20Pula%20Croatia", site:"https://www.facebook.com/KonobaKazunPula/"},
+    {name:"Konoba Soprano", city:"Pula 🇭🇷", price:"≈10-15 €/pers.", stars:1, cat:"rapide", maps:"https://www.google.com/maps/search/Konoba%20Soprano%20Pula%20Croatia", site:"https://konobasoprano.com"},
+    {name:"Restaurant Farabuto", city:"Pula 🇭🇷", price:"≈35-55 €/pers.", stars:3, cat:"table", maps:"https://www.google.com/maps/search/Restaurant%20Farabuto%20Pula%20Croatia", site:"http://www.farabuto.hr/"},
+    {name:"Gelateria Divieto", city:"Pula 🇭🇷", price:"≈2-4 €/boule", stars:3, cat:"glace", maps:"https://www.google.com/maps/search/Gelateria+Divieto+Pula+Croatia"},
+    {name:"Slastičarnica Cacao", city:"Pula 🇭🇷", price:"≈2-3 €/boule", stars:3, cat:"glace", maps:"https://www.google.com/maps/search/Cacao+gelateria+Pula+Croatia"},
+    {name:"Gelateria Forum", city:"Pula 🇭🇷", price:"≈2-3 €/boule", stars:2, cat:"glace", maps:"https://www.google.com/maps/search/gelateria+Forum+Pula+Croatia"},
+    {name:"Stara Konoba", city:"Fažana 🇭🇷", price:"≈15-22 €/pers.", stars:2, cat:"table", maps:"https://www.google.com/maps/search/Stara%20Konoba%20Fa%C5%BEana%20Croatia", site:"https://www.facebook.com/stara.konoba.fazana/"},
+    {name:"Konoba Vasianum", city:"Fažana 🇭🇷", price:"≈18-25 €/pers.", stars:2, cat:"table", maps:"https://www.google.com/maps/search/Konoba%20Vasianum%20Fa%C5%BEana%20Croatia", site:"https://www.facebook.com/p/Konoba-Vasianum-100046448449707/"},
+    {name:"Snack du port", city:"Fažana 🇭🇷", price:"≈8-12 €/pers.", stars:1, cat:"rapide", maps:"https://www.google.com/maps/search/Snack%20du%20port%20Fa%C5%BEana%20Croatia"},
+    {name:"Safari Bar", city:"Premantura 🇭🇷", price:"≈10-15 €/pers.", stars:3, cat:"rapide", maps:"https://www.google.com/maps/search/Safari%20Bar%20Premantura%20Croatia", site:"https://safaribar.hr/"},
+    {name:"Buffet Premantura", city:"Premantura 🇭🇷", price:"≈8-12 €/pers.", stars:1, cat:"rapide", maps:"https://www.google.com/maps/search/Buffet%20Premantura%20Croatia"},
+    {name:"Konoba Casa Mia", city:"Premantura 🇭🇷", price:"≈15-22 €/pers.", stars:1, cat:"table", maps:"https://www.google.com/maps/search/Konoba%20Casa%20Mia%20Premantura%20Croatia", site:"https://www.facebook.com/p/Konoba-Casa-mia-100063556781763/"},
+    {name:"Konoba Finera Kuglana", city:"Premantura 🇭🇷", price:"≈15-22 €/pers.", stars:1, cat:"table", maps:"https://www.google.com/maps/search/Konoba%20Finera%20Kuglana%20Premantura%20Croatia", site:"https://www.facebook.com/p/Konoba-Finera-Premantura-100066713906009/"},
+    {name:"Konoba Batelina", city:"Banjole 🇭🇷", price:"≈45-70 €/pers.", stars:3, cat:"table", maps:"https://www.google.com/maps/search/Konoba+Batelina+Banjole+Croatia", note:"Pas de site — réservation obligatoire, espèces uniquement"},
+    {name:"Konoba Viecia Batana", city:"Rovinj 🇭🇷", price:"≈15-22 €/pers.", stars:3, cat:"table", maps:"https://www.google.com/maps/search/Konoba+Viecia+Batana+Rovinj+Croatia"},
+    {name:"Pizzeria Da Sergio", city:"Rovinj 🇭🇷", price:"≈8-13 €/pers.", stars:3, cat:"rapide", maps:"https://www.google.com/maps/search/Pizzeria+Da+Sergio+Rovinj+Croatia", note:"⚠️ signalée fermée définitivement fin 2024 — à vérifier"},
+    {name:"Konoba Ul Ulica", city:"Rovinj 🇭🇷", price:"≈18-28 €/pers.", stars:2, cat:"table", maps:"https://www.google.com/maps/search/Konoba+Ul+Ulica+Rovinj+Croatia"},
+    {name:"Balbi", city:"Rovinj 🇭🇷", price:"≈12-20 €/pers.", stars:2, cat:"table", maps:"https://www.google.com/maps/search/Balbi+restaurant+Rovinj+Croatia", site:"https://balbirestaurant.shop/"}
+  ];
+
+  var grid = document.getElementById('restoGrid');
+  var empty = document.getElementById('restoEmpty');
+  var count = document.getElementById('restoCount');
+  var input = document.getElementById('restoSearchInput');
+  var filterBar = document.getElementById('restoFilters');
+  if (!grid) return;
+
+  var activeFilter = 'all';
+
+  function stars(n) { return '★'.repeat(n) + '☆'.repeat(3 - n); }
+
+  function escapeHtml(s) {
+    return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; });
+  }
+
+  function cardHtml(r) {
+    var links = '<a href="' + r.maps + '" target="_blank" style="font-size:11px; color:var(--accent); font-weight:bold; white-space:nowrap;">📍 Maps</a>';
+    if (r.site) links += ' <a href="' + r.site + '" target="_blank" style="font-size:11px; color:var(--accent); font-weight:bold; white-space:nowrap;">🌐 Site</a>';
+    var noteHtml = r.note ? '<br><span style="color:var(--accent-2); font-size:12px; font-weight:600;">' + escapeHtml(r.note) + '</span>' : '';
+    return '<div class="resto" data-name="' + escapeHtml(r.name.toLowerCase()) + '" data-city="' + escapeHtml(r.city.toLowerCase()) + '" data-cat="' + r.cat + '">' +
+      '<span class="price">' + r.price + '</span>' +
+      '<b class="name">' + escapeHtml(r.name) + '</b><span class="stars">' + stars(r.stars) + '</span>' +
+      '<p>' + escapeHtml(r.city) + noteHtml + '<br>' + links + '</p>' +
+      '</div>';
+  }
+
+  function render() {
+    var q = (input.value || '').trim().toLowerCase();
+    var visible = 0;
+    var html = '';
+    RESTOS.forEach(function (r) {
+      if (activeFilter !== 'all' && r.cat !== activeFilter) return;
+      if (q && r.name.toLowerCase().indexOf(q) === -1 && r.city.toLowerCase().indexOf(q) === -1) return;
+      html += cardHtml(r);
+      visible++;
+    });
+    grid.innerHTML = html;
+    empty.style.display = visible ? 'none' : 'block';
+    count.textContent = visible + ' restaurant' + (visible > 1 ? 's' : '') + (visible !== RESTOS.length ? ' sur ' + RESTOS.length : '');
+  }
+
+  input.addEventListener('input', render);
+  filterBar.addEventListener('click', function (e) {
+    var btn = e.target.closest('button[data-filter]');
+    if (!btn) return;
+    activeFilter = btn.dataset.filter;
+    Array.prototype.forEach.call(filterBar.children, function (b) { b.classList.toggle('active', b === btn); });
+    render();
+  });
+
+  render();
+})();
+</script>
 </body>
 </html>
